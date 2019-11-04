@@ -31,16 +31,15 @@
 </template>
 
 <script>
-import app from '@/modules/firebase'
+import Todo from '@/modules/biz/todo'
 
 export default {
-  name: 'HelloWorld',
+  name: 'TodoList',
   props: {
     msg: String
   },
   created() {
-    var db = app.firestore();
-    db.collection("todos").add({a: 'A', b: 1}).then(function (docRef) {
+    Todo.addTodo({title: 'TodoTitle', complete: false, createAt: Date.now(), complateAt: null}).then(function (docRef) {
       console.log(docRef.id)
     }).catch(function (error) {
       console.error(error)
