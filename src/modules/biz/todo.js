@@ -10,5 +10,8 @@ export default {
     },
     addTodo : function (todo) {
         return this.getCollection().add(todo);
+    },
+    getTodos: function () {
+        return this.getCollection().get();
     }
 }
