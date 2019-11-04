@@ -31,10 +31,20 @@
 </template>
 
 <script>
+import app from '@/modules/firebase'
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  created() {
+    var db = app.firestore();
+    db.collection("todos").add({a: 'A', b: 1}).then(function (docRef) {
+      console.log(docRef.id)
+    }).catch(function (error) {
+      console.error(error)
+    })
   }
 }
 </script>

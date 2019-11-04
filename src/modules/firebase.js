@@ -1,4 +1,9 @@
-import firebase from 'firebase'
+import Vue from 'vue'
+import { firestorePlugin } from 'vuefire'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
+Vue.use(firestorePlugin)
 
 var firebaseConfig = {
   apiKey: "AIzaSyDzqN-wqvAsZ41HVCTzHYqqpQ_cX1sWzYs",
