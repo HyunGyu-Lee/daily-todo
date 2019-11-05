@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-row align="center" justify="center">
     <input type="text" v-model="todoContent">
 
     <button type="button" @click="addButtonClick">ADD</button>
@@ -10,7 +10,7 @@
       </li>
     </ul>
 
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -21,11 +21,17 @@ export default {
   data() {
     return {
       todoContent: '',
-      todoList: []
+      todoList: [
+          { id: 'DUMMU-001', data: () => ({ content: 'Dummy Todo 1' }) },
+          { id: 'DUMMU-002', data: () => ({ content: 'Dummy Todo 2' }) },
+          { id: 'DUMMU-003', data: () => ({ content: 'Dummy Todo 3' }) },
+          { id: 'DUMMU-004', data: () => ({ content: 'Dummy Todo 4' }) },
+          { id: 'DUMMU-005', data: () => ({ content: 'Dummy Todo 5' }) }
+      ]
     }
   },
   created() {
-    this.getAllTodos();
+    // this.getAllTodos();
   },
   methods: {
     addButtonClick: function () {
