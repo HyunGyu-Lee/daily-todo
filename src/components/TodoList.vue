@@ -1,16 +1,31 @@
 <template>
-  <v-row align="center" justify="center">
-    <input type="text" v-model="todoContent">
+  <v-container>
+    <!-- Todo Input Control  -->
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="6" md="6">
+        <v-text-field type="text" 
+                      v-model="todoContent" 
+                      @keyup.enter="addTodoAction"
+                      label="What is your TODO?">
+        </v-text-field>
+      </v-col>
+    </v-row>
 
-    <button type="button" @click="addButtonClick">ADD</button>
-
-    <ul>
-      <li v-for="todo in todoList" :key="todo.id">
-        {{ todo.id }} / {{todo.data().content}}
-      </li>
-    </ul>
-
-  </v-row>
+    <!-- TodoList  --> 
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="6" md="6">
+        <v-list>
+          <v-list-item v-for="todo in todoList" :key="todo.id">
+            <v-list-item-content>
+              <v-list-item-subtitle>
+                {{todo.id }} / {{todo.data().content}} / {{todo.data().createAt}}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -22,11 +37,14 @@ export default {
     return {
       todoContent: '',
       todoList: [
-          { id: 'DUMMU-001', data: () => ({ content: 'Dummy Todo 1' }) },
-          { id: 'DUMMU-002', data: () => ({ content: 'Dummy Todo 2' }) },
-          { id: 'DUMMU-003', data: () => ({ content: 'Dummy Todo 3' }) },
-          { id: 'DUMMU-004', data: () => ({ content: 'Dummy Todo 4' }) },
-          { id: 'DUMMU-005', data: () => ({ content: 'Dummy Todo 5' }) }
+          { id: 'DUMMU-001', data: () => ({ content: 'Dummy Todo 1', createAt: Date.now() }) },
+          { id: 'DUMMU-002', data: () => ({ content: 'Dummy Todo 2', createAt: Date.now() }) },
+          { id: 'DUMMU-003', data: () => ({ content: 'Dummy Todo 3', createAt: Date.now() }) },
+          { id: 'DUMMU-004', data: () => ({ content: 'Dummy Todo 4', createAt: Date.now() }) },
+          { id: 'DUMMU-005', data: () => ({ content: 'Dummy Todo 5', createAt: Date.now() }) }
+      ],
+      treeItems: [
+         { name: 'A' }, { name: 'B' }
       ]
     }
   },
@@ -34,7 +52,7 @@ export default {
     // this.getAllTodos();
   },
   methods: {
-    addButtonClick: function () {
+    addTodoAction: function () {
       let todoItem = {
         content: this.todoContent, 
         complete: false, 
