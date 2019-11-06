@@ -1,14 +1,14 @@
 <template>
   <v-app app clipped>
-    <v-app-bar app dark color="indigo" clipped-left>
+    <!-- <v-app-bar app dark color="indigo" clipped-left>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="./assets/titleLogo.png"
+          src="./assets/logo/logo-white.png"
           transition="scale-transition"
-          width="120" height="36"
+          width="100" height="48"
         /> 
       </div>
 
@@ -22,7 +22,21 @@
         <span class="mr-2">contact</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-app-bar> -->
+
+    <v-row justify="center">
+      <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="./assets/logo/logo-colored.png"
+          transition="scale-transition"
+          width="480" height="360"
+        />        
+    </v-row>
+    <v-row justify="center" class="mt-0">
+      Simple & Powerful
+    </v-row>
 
     <v-content>
       <v-container class="fill-height" fluid>
