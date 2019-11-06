@@ -1,17 +1,15 @@
 <template>
   <v-app app clipped>
-    <v-app-bar app dark color="deep-orange" clipped-left>
+    <v-app-bar app dark color="indigo" clipped-left>
       <div class="d-flex align-center">
-        <!-- <v-img
+        <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="./assets/titleLogo.png"
           transition="scale-transition"
-          width="36" height="36"
-        /> -->
-
-        <span id="app-title"><b>Daily TODO</b></span>
+          width="120" height="36"
+        /> 
       </div>
 
       <v-spacer></v-spacer>
