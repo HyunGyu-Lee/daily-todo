@@ -37,14 +37,11 @@ export default {
     return {
       todoContent: '',
       todoList: [
-          { id: 'DUMMU-001', data: () => ({ content: 'Dummy Todo 1', createAt: Date.now() }) },
-          { id: 'DUMMU-002', data: () => ({ content: 'Dummy Todo 2', createAt: Date.now() }) },
-          { id: 'DUMMU-003', data: () => ({ content: 'Dummy Todo 3', createAt: Date.now() }) },
-          { id: 'DUMMU-004', data: () => ({ content: 'Dummy Todo 4', createAt: Date.now() }) },
-          { id: 'DUMMU-005', data: () => ({ content: 'Dummy Todo 5', createAt: Date.now() }) }
-      ],
-      treeItems: [
-         { name: 'A' }, { name: 'B' }
+        { id: 'DUMMU-001', data: () => ({ content: 'Dummy Todo 1', createAt: Date.now() }) },
+        { id: 'DUMMU-002', data: () => ({ content: 'Dummy Todo 2', createAt: Date.now() }) },
+        { id: 'DUMMU-003', data: () => ({ content: 'Dummy Todo 3', createAt: Date.now() }) },
+        { id: 'DUMMU-004', data: () => ({ content: 'Dummy Todo 4', createAt: Date.now() }) },
+        { id: 'DUMMU-005', data: () => ({ content: 'Dummy Todo 5', createAt: Date.now() }) }
       ]
     }
   },
