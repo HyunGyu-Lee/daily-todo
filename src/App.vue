@@ -1,17 +1,17 @@
 <template>
-  <v-app app clipped>
-    <!-- <v-app-bar app dark color="indigo" clipped-left>
+  <v-app>
+    <v-app-bar app dark color="indigo" clipped-left>
       <div class="d-flex align-center">
-        <v-img
+        <!-- <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
           src="./assets/logo/logo-white.png"
           transition="scale-transition"
-          width="100" height="48"
-        /> 
+          width="96" height="48"
+        />  -->
       </div>
-
+        <h3>@DAILYTODO</h3>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -22,29 +22,15 @@
         <span class="mr-2">contact</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-    </v-app-bar> -->
-
-    <v-row justify="center">
-      <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="./assets/logo/logo-colored.png"
-          transition="scale-transition"
-          width="480" height="360"
-        />        
-    </v-row>
-    <v-row justify="center" class="mt-0">
-      Simple & Powerful
-    </v-row>
+    </v-app-bar>
 
     <v-content>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height pl-8 pr-8" fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
 
-    <v-bottom-navigation v-model="bottomNav" shift>
+    <v-bottom-navigation v-model="bottomNav" app background-color="indigo" grow dark fixed>
       <v-btn :to="{name: 'todoPage'}">
         <span>ToDo</span><v-icon>mdi-newspaper-variant-multiple</v-icon>
       </v-btn>

@@ -8,6 +8,13 @@ import router from '@/modules/router'
 
 Vue.config.productionTip = false
 
+var moment = require('moment')
+require('moment/locale/ko')
+
+Vue.use(require('vue-moment'), {
+  moment
+})
+
 new Vue({
   vuetify,
   router,
