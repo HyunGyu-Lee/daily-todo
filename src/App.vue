@@ -31,10 +31,10 @@
     </v-content>
 
     <v-bottom-navigation v-model="bottomNav" app background-color="indigo" grow dark fixed>
-      <v-btn :to="{name: 'todoPage'}">
+      <v-btn :to="{name: 'todoPage'}" height="100%">
         <span>ToDo</span><v-icon>mdi-newspaper-variant-multiple</v-icon>
       </v-btn>
-      <v-btn to="/bookmarks">
+      <v-btn to="/bookmarks" height="100%">
         <span>Bookmark</span><v-icon>mdi-book-open-variant</v-icon>
       </v-btn>
     </v-bottom-navigation>
@@ -52,9 +52,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#app-title {
-
-}
-</style>
