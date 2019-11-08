@@ -30,7 +30,7 @@
       </v-container>
     </v-content>
 
-    <v-bottom-navigation v-model="bottomNav" app background-color="indigo" grow dark fixed>
+    <v-bottom-navigation v-model="bottomNav" app background-color="indigo" grow dark shift fixed>
       <v-btn :to="{name: 'todoPage'}" height="100%">
         <span>ToDo</span><v-icon>mdi-newspaper-variant-multiple</v-icon>
       </v-btn>
