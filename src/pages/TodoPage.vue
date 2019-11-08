@@ -1,16 +1,16 @@
 <template>
   <v-row>
-    <TodoList />
+    <TodoApp />
   </v-row>
 </template>
 
 <script>
-import TodoList from '@/components/TodoList';
+import TodoApp from '@/components/todoapp/TodoApp';
 
 export default {
   name: 'TodoPage',
   components: {
-    TodoList,
+    TodoApp,
   }
 };
 </script>
