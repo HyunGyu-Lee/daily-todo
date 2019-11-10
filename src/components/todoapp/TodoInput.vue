@@ -20,7 +20,7 @@
       <v-card>
         <v-card-title>How many times do you have to do this?</v-card-title>
         <v-card-text class="justify-center">
-          <v-date-picker v-model="toFinishAt" locale="ko" full-width="true">
+          <v-date-picker v-model="toFinishAt" locale="ko" :full-width="true">
             <v-spacer></v-spacer>
             <v-btn text color="primary" @click="datepickerDialog = false">Cancel</v-btn>
             <v-btn text color="primary" @click="addTodoSecondStep(toFinishAt)">OK</v-btn>
@@ -54,9 +54,9 @@ export default {
     addTodoSecondStep: function (toFinishAt) {
       let todoItemData = {
         content: this.content, 
-        status: TodoBiz.STATUS_TODO, 
-        createAt: Date.now(), 
-        toFinishAt
+        status: TodoBiz.StatusConstants.STATUS_TODO, 
+        createAt: Date.now(),
+        toFinishAt: this.$moment(toFinishAt).valueOf()
       }; 
       
       this.$emit('addNewTodo', todoItemData);

@@ -1,14 +1,15 @@
 <template>
   <v-container>
     <TodoInput @addNewTodo="addNewTodo" />
-    <TodoList :todoList="todoList" />
+    <TodoList :todoList="viewableTodoList" />
   </v-container>
 </template>
 
 <script>
 import TodoList from '@/components/todoapp/TodoList'
 import TodoInput from '@/components/todoapp/TodoInput'
-import Todo from '@/modules/biz/todo'
+
+import TodoBiz from '@/modules/biz/todo'
 
 export default {
   name: 'TodoApp',
@@ -18,37 +19,52 @@ export default {
   },
   data() {
     return {                  
-      todoList: [
-        { id: 'DUMMU-001', data: () => ({ content: '산책하기', createAt: Date.now(), status: 0, toFinishAt: Date.now() }) },
-        { id: 'DUMMU-002', data: () => ({ content: '"DDD Start!" 책 2장 읽기', createAt: Date.now(), status: 0, toFinishAt: null }) },
-        { id: 'DUMMU-003', data: () => ({ content: '운동하기', createAt: Date.now(), status: 2, toFinishAt: Date.now() }) },
-        { id: 'DUMMU-004', data: () => ({ content: '퇴근 후 공부하기', createAt: Date.now(), status: 1, toFinishAt: null }) },
-        { id: 'DUMMU-005', data: () => ({ content: '메인 화면에 버튼 추가', createAt: Date.now(), status: 2, toFinishAt: Date.now() }) }
-      ]
+      todoList: []
     }
   },
   created() {
-    // this.getAllTodos();
+     this.getAllTodos();
+  },
+  computed: {
+    viewableTodoList: function () {
+      return this.todoList.map((todoEntity) => this.convertViewable(todoEntity))
+    }
   },
   methods: {
     addNewTodo: function (todoItemData) {
-      console.log(todoItemData)
+      var _this = this;
+      TodoBiz.addTodo(todoItemData).then(function (docRef) {
+        console.log(docRef.id)
+        _this.todoList.push({
+          id: docRef.id, data: function () {
+            return todoItemData
+          }}
+        )        
+      }).catch(function (error) {
+        console.error(error)
+      })
     },
-    addTodoAction: function () {
-//      var _this = this;
-      // Todo.addTodo(todoItem).then(function (docRef) {
-      //   console.log(docRef.id)        
-      //   _this.todoItem = '';
-      // }).catch(function (error) {
-      //   console.error(error)
-      // })
-    },
-    getAllTodos: () => {
-      Todo.getTodos().then(function (todos) {
-        this.todoList = todos.docs;
+    getAllTodos: function () {
+      console.log(this.$moment().tz())
+      var _this = this;
+      TodoBiz.getTodos().then(function (todos) {
+        _this.todoList = todos.docs;
       }, function (error) {
         console.error(error)
       });
+    },
+    convertViewable: function (todoEntity) {
+      console.log(todoEntity.data())
+      let entityBody = todoEntity.data();
+      return {
+        id: todoEntity.id, 
+        content: entityBody.content,
+        createAt: entityBody.createAt,
+        status: entityBody.status,
+        statusColor: TodoBiz.StatusConstants.statusColors[entityBody.status],
+        statusText: TodoBiz.StatusConstants.statusTexts[entityBody.status],
+        toFinishAt: entityBody.toFinishAt
+      }
     }
   }
 }

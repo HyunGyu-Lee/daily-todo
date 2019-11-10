@@ -8,8 +8,10 @@ import router from '@/modules/router'
 
 Vue.config.productionTip = false
 
-var moment = require('moment')
-require('moment/locale/ko')
+import moment from 'moment-timezone'
+moment.tz.setDefault('Asia/Seoul')
+
+console.log(moment())
 
 Vue.use(require('vue-moment'), {
   moment
