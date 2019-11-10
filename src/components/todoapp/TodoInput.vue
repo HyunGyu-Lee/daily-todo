@@ -4,13 +4,30 @@
       <v-text-field 
         type="text" 
         v-model="content" 
-        @keyup.enter="addNewTodo"
+        @keyup.enter="addTodoFirstStep"
         append-icon="mdi-plus"
-        @click:append="addNewTodo"
+        @click:append="addTodoFirstStep"
         label="What is your next plan?"
       >
       </v-text-field>
     </v-col>
+    <v-dialog
+      v-model="datepickerDialog"
+      :return-value.sync="toFinishAt"
+      persistent
+      max-width="500px"
+    >
+      <v-card>
+        <v-card-title>How many times do you have to do this?</v-card-title>
+        <v-card-text class="justify-center">
+          <v-date-picker v-model="toFinishAt" locale="ko" full-width="true">
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="datepickerDialog = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="addTodoSecondStep(toFinishAt)">OK</v-btn>
+          </v-date-picker>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-row>
 </template>
 
@@ -21,22 +38,32 @@ export default {
   name: 'TodoInput',
   data() {
     return { 
-      content: ''
+      content: '',
+      toFinishAt: new Date().toISOString().substr(0, 10),
+      datepickerDialog: false
     }
   },
   methods: {
-    addNewTodo: function () {
+    addTodoFirstStep: function () {
+      if (!this.content) {
+        alert('Todo 내용 필요!!!')
+      } else {
+        this.datepickerDialog = true;
+      }
+    },
+    addTodoSecondStep: function (toFinishAt) {
       let todoItemData = {
         content: this.content, 
         status: TodoBiz.STATUS_TODO, 
         createAt: Date.now(), 
-        doneAt: null
-      };
+        toFinishAt
+      }; 
+      
       this.$emit('addNewTodo', todoItemData);
-      this.clearContent();
-    },
-    clearContent: function () {
+
       this.content = ''
+      this.datepickerDialog = false
+      this.toFinishAt = new Date().toISOString().substr(0, 10)
     }
   }
 }

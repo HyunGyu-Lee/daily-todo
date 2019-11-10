@@ -19,11 +19,11 @@ export default {
   data() {
     return {                  
       todoList: [
-        { id: 'DUMMU-001', data: () => ({ content: '산책하기', createAt: Date.now(), status: 0, doneAt: null }) },
-        { id: 'DUMMU-002', data: () => ({ content: '"DDD Start!" 책 2장 읽기', createAt: Date.now(), status: 0, doneAt: null }) },
-        { id: 'DUMMU-003', data: () => ({ content: '운동하기', createAt: Date.now(), status: 2, doneAt: Date.now() }) },
-        { id: 'DUMMU-004', data: () => ({ content: '퇴근 후 공부하기', createAt: Date.now(), status: 1, doneAt: null }) },
-        { id: 'DUMMU-005', data: () => ({ content: '메인 화면에 버튼 추가', createAt: Date.now(), status: 2, doneAt: Date.now() }) }
+        { id: 'DUMMU-001', data: () => ({ content: '산책하기', createAt: Date.now(), status: 0, toFinishAt: Date.now() }) },
+        { id: 'DUMMU-002', data: () => ({ content: '"DDD Start!" 책 2장 읽기', createAt: Date.now(), status: 0, toFinishAt: null }) },
+        { id: 'DUMMU-003', data: () => ({ content: '운동하기', createAt: Date.now(), status: 2, toFinishAt: Date.now() }) },
+        { id: 'DUMMU-004', data: () => ({ content: '퇴근 후 공부하기', createAt: Date.now(), status: 1, toFinishAt: null }) },
+        { id: 'DUMMU-005', data: () => ({ content: '메인 화면에 버튼 추가', createAt: Date.now(), status: 2, toFinishAt: Date.now() }) }
       ]
     }
   },
