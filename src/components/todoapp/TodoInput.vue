@@ -59,8 +59,8 @@ export default {
         toFinishAt: this.$moment(toFinishAt).valueOf()
       }; 
       
-      this.$emit('addNewTodo', todoItemData);
-
+      TodoBiz.EventBus.$emit('addNewTodo', todoItemData)
+      
       this.content = ''
       this.datepickerDialog = false
       this.toFinishAt = new Date().toISOString().substr(0, 10)

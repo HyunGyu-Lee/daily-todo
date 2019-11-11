@@ -38,6 +38,12 @@
         <span>Bookmark</span><v-icon>mdi-book-open-variant</v-icon>
       </v-btn>
     </v-bottom-navigation>
+
+    <!-- Global Notification Message -->
+    <v-snackbar :value="alerts.visible" top multi-line :timeout="alerts.timeout">
+      {{alerts.message}}
+      <v-btn dark text @click="alerts.visible = false">Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -45,10 +51,18 @@
 export default {
   name: 'App',
   data: () => ({
-    bottomNav: 0
+    bottomNav: 0,
+    alerts: {
+      message: '',
+      visible: false,
+      timeout: 2000
+    }
   }),
   created () {
-    // this.$vuetify.theme.dark = false
+    this.$app.EventBus.$on('showAlert', (alertParams) => {
+      this.alerts.message = alertParams.alertMessage
+      this.alerts.visible = true
+    })
   }
 };
 </script>

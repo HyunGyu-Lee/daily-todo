@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row align="start" class="fill-height">
     <TodoApp />
   </v-row>
 </template>

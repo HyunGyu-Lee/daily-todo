@@ -1,21 +1,18 @@
 // import env, plugins
 import Vue from 'vue'
 import vuetify from '@/plugins/vuetify'
+import moment from 'moment'
 
 // import app components
+import AppBiz from '@/modules/app'
 import App from '@/App'
 import router from '@/modules/router'
 
 Vue.config.productionTip = false
+moment.locale('ko')
 
-import moment from 'moment-timezone'
-moment.tz.setDefault('Asia/Seoul')
-
-console.log(moment())
-
-Vue.use(require('vue-moment'), {
-  moment
-})
+Vue.prototype.$moment = moment
+Vue.prototype.$app = AppBiz
 
 new Vue({
   vuetify,

@@ -1,7 +1,10 @@
 <template>
   <v-container>
-    <TodoInput @addNewTodo="addNewTodo" />
+    <TodoInput />
     <TodoList :todoList="viewableTodoList" />
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -19,42 +22,46 @@ export default {
   },
   data() {
     return {                  
-      todoList: []
+      todoList: [],
+      loading: false
     }
   },
   created() {
-     this.getAllTodos();
+    TodoBiz.EventBus.$on('addNewTodo', todo => this.addTodo(todo))
+    TodoBiz.EventBus.$on('deleteTodo', todoId => this.deleteTodo(todoId))
+
+    this.getTodos();
   },
   computed: {
-    viewableTodoList: function () {
+    viewableTodoList() {
       return this.todoList.map((todoEntity) => this.convertViewable(todoEntity))
     }
   },
   methods: {
-    addNewTodo: function (todoItemData) {
-      var _this = this;
-      TodoBiz.addTodo(todoItemData).then(function (docRef) {
-        console.log(docRef.id)
-        _this.todoList.push({
-          id: docRef.id, data: function () {
+    getTodos() {     
+      this.loading = true; 
+      TodoBiz.getTodos().then(todos => {
+        this.todoList = todos.docs;
+        this.loading = false
+      }).catch(error => this.$app.showAlert({alertMessage: error.message}));
+    },
+    addTodo(todoItemData) {
+      TodoBiz.addTodo(todoItemData).then(docRef => {
+        this.todoList.push({
+          id: docRef.id, 
+          data() {
             return todoItemData
-          }}
-        )        
-      }).catch(function (error) {
-        console.error(error)
-      })
+          }
+        })
+      }).catch(error => this.$app.showAlert({alertMessage: error.message}))
     },
-    getAllTodos: function () {
-      console.log(this.$moment().tz())
-      var _this = this;
-      TodoBiz.getTodos().then(function (todos) {
-        _this.todoList = todos.docs;
-      }, function (error) {
-        console.error(error)
-      });
+    deleteTodo(todoId) {
+      TodoBiz.deleteTodo(todoId).then(() => {
+        let idx = this.todoList.findIndex(todo => todo.id === todoId);
+        this.todoList.splice(idx, 1);
+      }).catch(error => this.$app.showAlert({alertMessage: error.message}))
     },
-    convertViewable: function (todoEntity) {
-      console.log(todoEntity.data())
+    convertViewable(todoEntity) {
       let entityBody = todoEntity.data();
       return {
         id: todoEntity.id, 

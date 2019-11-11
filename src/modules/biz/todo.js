@@ -1,6 +1,8 @@
+import Vue from 'vue'
 import firebaseApp from '@/modules/firebase'
 
 const firestore = firebaseApp.firestore();
+const EventBus = new Vue()
 
 const TODO_COLLECTION = 'todos'
 
@@ -25,14 +27,18 @@ const StatusConstants = {
 }
 
 export default {
+    EventBus,
     StatusConstants,
     getCollection() {
-        return firestore.collection(TODO_COLLECTION)
+      return firestore.collection(TODO_COLLECTION)
     },
-    addTodo : function (todo) {
-        return this.getCollection().add(todo);
+    addTodo(todo) {
+      return this.getCollection().add(todo);
     },
-    getTodos: function () {
-        return this.getCollection().get();
+    getTodos () {
+      return this.getCollection().get();
+    },
+    deleteTodo(todoId) {
+      return this.getCollection().doc(todoId).delete();
     }
 }
