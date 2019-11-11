@@ -41,7 +41,7 @@
         <v-btn icon x-small>
             <v-icon color="yellow darken-1">mdi-star-outline</v-icon>
         </v-btn>              
-        <v-btn icon x-small>
+        <v-btn icon x-small @click.stop.prevent="deleteTodo">
             <v-icon color="#888888" dark>mdi-trash-can</v-icon>
         </v-btn>
       </v-card-actions>
@@ -62,14 +62,7 @@ export default {
   },
   computed: {
     remainingPeriod: function () {
-      let prefix;
-      
-      if (this.isExceed() == false) {
-        prefix = 'D-'
-      } else {
-        prefix = 'D+'
-      }
-
+      let prefix = this.isExceed() ? 'D-' : 'D+';      
       return prefix + this.$moment(this.todo.toFinishAt).toNow(true)
     },
     remainingPeriodColor() {
@@ -82,6 +75,9 @@ export default {
     },
     isExceed() {
       return this.$moment(this.todo.toFinishAt).diff(this.$moment(), 'seconds') < 0
+    },
+    deleteTodo() {
+      TodoBiz.EventBus.$emit('deleteTodo', this.todo.id);
     }
   }
 }
