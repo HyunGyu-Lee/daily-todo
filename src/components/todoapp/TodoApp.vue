@@ -34,7 +34,6 @@ export default {
     addNewTodo: function (todoItemData) {
       var _this = this;
       TodoBiz.addTodo(todoItemData).then(function (docRef) {
-        console.log(docRef.id)
         _this.todoList.push({
           id: docRef.id, data: function () {
             return todoItemData
@@ -45,7 +44,7 @@ export default {
       })
     },
     getAllTodos: function () {
-      console.log(this.$moment().tz())
+      console.log(this.$moment())
       var _this = this;
       TodoBiz.getTodos().then(function (todos) {
         _this.todoList = todos.docs;
@@ -54,7 +53,6 @@ export default {
       });
     },
     convertViewable: function (todoEntity) {
-      console.log(todoEntity.data())
       let entityBody = todoEntity.data();
       return {
         id: todoEntity.id, 
