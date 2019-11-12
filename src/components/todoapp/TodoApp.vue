@@ -2,9 +2,6 @@
   <v-container>
     <TodoInput />
     <TodoList :todoList="viewableTodoList" />
-    <v-overlay :value="loading">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </v-container>
 </template>
 
@@ -22,8 +19,7 @@ export default {
   },
   data() {
     return {                  
-      todoList: [],
-      loading: false
+      todoList: []
     }
   },
   created() {
@@ -38,12 +34,12 @@ export default {
     }
   },
   methods: {
-    getTodos() {     
-      this.loading = true; 
+    getTodos() { 
+      this.$app.startLoading(); 
       TodoBiz.getTodos().then(todos => {
         this.todoList = todos.docs;
-        this.loading = false
-      }).catch(error => this.$app.showAlert({alertMessage: error.message}));
+      this.$app.finishLoading();
+      }).catch(error => this.$app.toast(error.message));
     },
     addTodo(todoItemData) {
       TodoBiz.addTodo(todoItemData).then(docRef => {
@@ -53,13 +49,13 @@ export default {
             return todoItemData
           }
         })
-      }).catch(error => this.$app.showAlert({alertMessage: error.message}))
+      }).catch(error => this.$app.toast(error.message))
     },
     deleteTodo(todoId) {
       TodoBiz.deleteTodo(todoId).then(() => {
         let idx = this.todoList.findIndex(todo => todo.id === todoId);
         this.todoList.splice(idx, 1);
-      }).catch(error => this.$app.showAlert({alertMessage: error.message}))
+      }).catch(error => this.$app.toast(error.message))
     },
     convertViewable(todoEntity) {
       let entityBody = todoEntity.data();
@@ -70,7 +66,8 @@ export default {
         status: entityBody.status,
         statusColor: TodoBiz.StatusConstants.statusColors[entityBody.status],
         statusText: TodoBiz.StatusConstants.statusTexts[entityBody.status],
-        toFinishAt: entityBody.toFinishAt
+        toFinishAt: entityBody.toFinishAt,
+        starred: entityBody.starred
       }
     }
   }

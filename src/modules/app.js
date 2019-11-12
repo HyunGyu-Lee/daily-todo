@@ -4,7 +4,13 @@ const EventBus = new Vue()
 
 export default {
   EventBus,
-  showAlert(alertParams) {
-    this.EventBus.$emit('showAlert', alertParams);
+  toast(message) {
+    this.EventBus.$emit('toast', message);
+  },
+  startLoading() {
+    this.EventBus.$emit('setLoadingState', true);
+  },
+  finishLoading() {
+    this.EventBus.$emit('setLoadingState', false);
   }
 }

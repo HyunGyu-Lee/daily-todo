@@ -38,6 +38,9 @@ export default {
     getTodos () {
       return this.getCollection().get();
     },
+    updateTodo(todoId, payload) {
+      return this.getCollection().doc(todoId).update(payload);
+    },
     deleteTodo(todoId) {
       return this.getCollection().doc(todoId).delete();
     }

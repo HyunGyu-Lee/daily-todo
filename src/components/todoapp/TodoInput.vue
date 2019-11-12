@@ -52,11 +52,13 @@ export default {
       }
     },
     addTodoSecondStep: function (toFinishAt) {
+      console.log(toFinishAt + ' 23:59:59')
       let todoItemData = {
         content: this.content, 
         status: TodoBiz.StatusConstants.STATUS_TODO, 
         createAt: Date.now(),
-        toFinishAt: this.$moment(toFinishAt).valueOf()
+        toFinishAt: this.$moment(toFinishAt + ' 23:59:59').valueOf(),
+        starred: false
       }; 
       
       TodoBiz.EventBus.$emit('addNewTodo', todoItemData)

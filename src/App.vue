@@ -40,10 +40,15 @@
     </v-bottom-navigation>
 
     <!-- Global Notification Message -->
-    <v-snackbar :value="alerts.visible" top multi-line :timeout="alerts.timeout">
+    <v-snackbar v-model="alerts.visible" top multi-line :timeout="alerts.timeout">
       {{alerts.message}}
       <v-btn dark text @click="alerts.visible = false">Close</v-btn>
     </v-snackbar>
+
+    <!-- Global Loading Overay -->
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -56,13 +61,21 @@ export default {
       message: '',
       visible: false,
       timeout: 2000
-    }
+    },
+    loading: false
   }),
   created () {
-    this.$app.EventBus.$on('showAlert', (alertParams) => {
-      this.alerts.message = alertParams.alertMessage
+    // Listen show alert request
+    this.$app.EventBus.$on('toast', (message) => {
+      this.alerts.visible = false
+      this.alerts.message = message
       this.alerts.visible = true
     })
+
+    // Listen show loading request
+    this.$app.EventBus.$on('setLoadingState', (loadingState) => {
+      this.loading = loadingState
+    });
   }
 };
 </script>
