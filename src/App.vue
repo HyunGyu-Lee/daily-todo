@@ -1,17 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar app dark color="indigo" clipped-left>
-      <div class="d-flex align-center">
-        <!-- <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="./assets/logo/logo-white.png"
-          transition="scale-transition"
-          width="96" height="48"
-        />  -->
-      </div>
-        <h3>@DAILYTODO</h3>
+    <v-app-bar app dark color="primary" clipped-left>      
+        <h3>Todo.io</h3>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -30,12 +20,12 @@
       </v-container>
     </v-content>
 
-    <v-bottom-navigation v-model="bottomNav" app background-color="indigo" grow dark shift fixed>
+    <v-bottom-navigation v-model="bottomNav" app background-color="primary" grow dark shift fixed>
       <v-btn :to="{name: 'todoPage'}" height="100%">
         <span>ToDo</span><v-icon>mdi-newspaper-variant-multiple</v-icon>
       </v-btn>
-      <v-btn to="/bookmarks" height="100%">
-        <span>Bookmark</span><v-icon>mdi-book-open-variant</v-icon>
+      <v-btn to="/settings" height="100%">
+        <span>Settings</span><v-icon>mdi-settings</v-icon>
       </v-btn>
     </v-bottom-navigation>
 

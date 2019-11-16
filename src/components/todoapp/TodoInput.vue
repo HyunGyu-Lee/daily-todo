@@ -7,7 +7,7 @@
         @keyup.enter="addTodoFirstStep"
         append-icon="mdi-plus"
         @click:append="addTodoFirstStep"
-        label="What is your next plan?"
+        label="What needs to be done?"
       >
       </v-text-field>
     </v-col>

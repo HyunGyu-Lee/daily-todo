@@ -1,17 +1,22 @@
 <template>
-  <v-row justify="center" v-if="todoList.length > 0">    
-    <TodoItem :todo="todo" v-for="todo in todoList" :key="todo.id" />
-  </v-row>
-  <v-row justify="space-around" v-else>
-    <v-subheader>Nothing to do!</v-subheader>
-  </v-row>
+  <v-card>
+    <v-progress-linear class="my-0" v-model="progressPercentage"></v-progress-linear>
+    <v-card-actions>
+      <p>TodoList Summary Here!</p>
+    </v-card-actions>
+    <v-list class="pa-0">
+      <template v-for="todo in todoList">
+        <TodoItem :key="todo.id" :todo="todo"></TodoItem>
+      </template>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
-import TodoItem from '@/components/todoapp/TodoItem'
+import TodoItem from "@/components/todoapp/TodoItem";
 
 export default {
-  name: 'TodoList',
+  name: "TodoList",
   components: {
     TodoItem
   },
@@ -20,10 +25,14 @@ export default {
       type: Array,
       required: true
     }
+  },
+  data() {
+    return {
+      progressPercentage: 50
+    };
   }
-}
+};
 </script>
 
 <style>
-
 </style>

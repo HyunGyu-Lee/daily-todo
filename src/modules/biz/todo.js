@@ -14,15 +14,10 @@ const StatusConstants = {
   STATUS_TODO,
   STATUS_IN_PROGRESS,
   STATUS_DONE,
-  statusColors: {
-    [STATUS_TODO]: {main: '#43B82E', sub: 'light-green'}, 
-    [STATUS_IN_PROGRESS]: {main: '#388FFF', sub: 'light-blue'}, 
-    [STATUS_DONE]: {main: '#BDBDBD', sub: 'grey'}
-  },
-  statusTexts: {
-    [STATUS_TODO]: 'To Do', 
-    [STATUS_IN_PROGRESS]: 'In progress', 
-    [STATUS_DONE]: 'Done'
+  statusMeta: {
+    [STATUS_TODO]: {text: 'To Do', color: '#43B82E'}, 
+    [STATUS_IN_PROGRESS]: {text: 'In progress', color: '#388FFF'}, 
+    [STATUS_DONE]: {text: 'Done', color: '#BDBDBD'}
   }    
 }
 

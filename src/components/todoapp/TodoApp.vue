@@ -64,8 +64,6 @@ export default {
         content: entityBody.content,
         createAt: entityBody.createAt,
         status: entityBody.status,
-        statusColor: TodoBiz.StatusConstants.statusColors[entityBody.status],
-        statusText: TodoBiz.StatusConstants.statusTexts[entityBody.status],
         toFinishAt: entityBody.toFinishAt,
         starred: entityBody.starred
       }
