@@ -28,34 +28,37 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col class="text-right" v-if="!isDone(todoData)">
-            <v-tooltip top>
-              <template v-slot:activator="{on}">
-                <v-chip class="mr-0" :color="remainingPeriodColor" small label>
-                  <span class="caption" v-on="on" style="color: white;">{{remainingPeriod}}</span>
-                </v-chip>
-              </template>
-              <span>{{this.$moment(todoData.toFinishAt).format('YYYY-MM-DD')}}</span>
-            </v-tooltip>
+            <template v-if="editMode">
+              <v-icon>mdi-calendar</v-icon>
+            </template>
+            <template v-else>
+              <v-tooltip top>
+                <template v-slot:activator="{on}">
+                  <v-chip class="mr-0" :color="remainingPeriodColor" small label>
+                    <span class="caption" v-on="on" style="color: white;">{{remainingPeriod}}</span>
+                  </v-chip>
+                </template>
+                <span>{{this.$moment(todoData.toFinishAt).format('YYYY-MM-DD')}}</span>
+              </v-tooltip>
+            </template>
           </v-col>
         </v-row>
       </v-card-subtitle>
-      <v-card-text>
-        <v-row dense align="center">
-          <template v-if="editMode">
-            <v-textarea auto-grow outlined v-model="todoData.content"></v-textarea>
-          </template>
-          <template v-else>
-            <v-col>
-              <span class="body-2 font-weight-medium">{{todoData.content}}</span>
-            </v-col>
-          </template>
-        </v-row>
+      <v-divider></v-divider>
+      <v-card-text style="height: 80px">
+        <template v-if="editMode">
+          <v-textarea v-model="todoData.content" class="px-0" ref="todoContentArea" rounded auto-grow >            
+          </v-textarea>
+        </template>
+        <template v-else>
+            <span class="body-2 font-weight-medium">{{todoData.content}}</span>
+        </template>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
         <template v-if="editMode">
-          <v-btn icon x-small @click.stop.prevent="saveChanges">
+          <v-btn icon x-small @click.stop.prevent="changeViewModeAndSave">
             <v-icon color="#888888 darken-1" dark>mdi-check</v-icon>
           </v-btn>
           <v-btn icon x-small @click.stop.prevent="editMode = false">
@@ -63,7 +66,7 @@
           </v-btn>
         </template>
         <template v-else>
-          <v-btn icon x-small @click.stop.prevent="editMode = true">
+          <v-btn icon x-small @click.stop.prevent="changeEditMode">
             <v-icon color="#888888 darken-1" dark>mdi-pencil</v-icon>
           </v-btn>
           <v-btn icon x-small @click.stop.prevent="toggleStarred">
@@ -119,8 +122,6 @@ export default {
       return TodoBiz.StatusConstants.statusMeta[status];
     },
     isDone() {
-      console.log("this.todo: ", this.todo);
-      console.log("this.todoData: ", this.todoData);
       return this.todoData.status == TodoBiz.StatusConstants.STATUS_DONE;
     },
     isExceed() {
@@ -146,8 +147,15 @@ export default {
         })
         .catch(error => this.$app.toast(error.message));
     },
-    saveChanges() {
-      console.log("SAVE!!");
+    changeEditMode() {
+      this.editMode = true
+      
+      // TODO setTimeout 쓰지 않고 해결방법 찾기
+      setTimeout(() => {
+        this.$refs.todoContentArea.focus();
+      }, 10);
+    },
+    changeViewModeAndSave() {
       this.editMode = false;
       TodoBiz.updateTodo(this.todoData.id, {
         content: this.todoData.content,

@@ -1,15 +1,19 @@
 <template>
-  <v-card>
-    <v-progress-linear class="my-0" v-model="progressPercentage"></v-progress-linear>
-    <v-card-actions>
-      <p>TodoList Summary Here!</p>
-    </v-card-actions>
-    <v-list class="pa-0">
-      <template v-for="todo in todoList">
-        <TodoItem :key="todo.id" :todo="todo"></TodoItem>
-      </template>
-    </v-list>
-  </v-card>
+  <v-row justify="center">
+    <v-col sm="10" md="10" xs="1">
+      <v-card>
+        <v-progress-linear class="my-0" v-model="progressPercentage"></v-progress-linear>
+        <v-card-actions>
+          <p>TodoList Summary Here!</p>
+        </v-card-actions>
+        <v-list class="pa-0">
+          <template v-for="todo in todoList">
+            <TodoItem :key="todo.id" :todo="todo"></TodoItem>
+          </template>
+        </v-list>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
