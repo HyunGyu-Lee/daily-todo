@@ -29,7 +29,7 @@
           <v-spacer></v-spacer>
           <v-col class="text-right" v-if="!isDone(todoData)">
             <template v-if="editMode">
-              <v-icon>mdi-calendar</v-icon>
+              <v-icon class="pa-0 ma-0" @click="datepickerDialogShow = true">mdi-calendar</v-icon>
             </template>
             <template v-else>
               <v-tooltip top>
@@ -45,17 +45,16 @@
         </v-row>
       </v-card-subtitle>
       <v-divider></v-divider>
-      <v-card-text style="height: 80px">
+      <v-card-text :class="editMode ? 'pa-0' : ''">
         <template v-if="editMode">
-          <v-textarea v-model="todoData.content" class="px-0" ref="todoContentArea" rounded auto-grow >            
-          </v-textarea>
+          <v-textarea v-model="todoData.content" class="px-0" ref="todoContentArea" rounded></v-textarea>
         </template>
         <template v-else>
-            <span class="body-2 font-weight-medium">{{todoData.content}}</span>
+          <span class="body-2 font-weight-medium">{{todoData.content}}</span>
         </template>
       </v-card-text>
       <v-divider></v-divider>
-      <v-card-actions>
+      <v-card-actions class="grey lighten-5">
         <v-spacer></v-spacer>
         <template v-if="editMode">
           <v-btn icon x-small @click.stop.prevent="changeViewModeAndSave">
@@ -78,14 +77,19 @@
         </template>
       </v-card-actions>
     </v-card>
+    <DatepickerDialog :show="datepickerDialogShow" v-on:onDateSelect="(date) => alert(date)"></DatepickerDialog>
   </v-list-item>
 </template>
 
 <script>
 import TodoBiz from "@/modules/biz/todo";
+import DatepickerDialog from '@/components/dialog/DatepickerDialog';
 
 export default {
   name: "TodoItem",
+  components: {
+    DatepickerDialog
+  },
   props: {
     todo: {
       type: Object,
@@ -96,6 +100,7 @@ export default {
     return {
       todoData: this.todo,
       editMode: false,
+      datepickerDialogShow: false,
       statusItems: TodoBiz.StatusConstants.statusMeta
     };
   },
@@ -148,8 +153,8 @@ export default {
         .catch(error => this.$app.toast(error.message));
     },
     changeEditMode() {
-      this.editMode = true
-      
+      this.editMode = true;
+
       // TODO setTimeout 쓰지 않고 해결방법 찾기
       setTimeout(() => {
         this.$refs.todoContentArea.focus();
