@@ -46,7 +46,7 @@ export default {
   methods: {
     addTodoFirstStep: function () {
       if (!this.content) {
-        alert('Todo 내용 필요!!!')
+        this.$app.toast('Please insert todo')
       } else {
         this.datepickerDialog = true;
       }

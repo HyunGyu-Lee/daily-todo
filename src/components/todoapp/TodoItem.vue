@@ -7,6 +7,7 @@
       outlined
       :style="'border-left: 5px solid ' + this.todoColor"
     >
+      <!-- Start of TodoItem Header -->
       <v-card-subtitle class="pt-1 pb-1 pl-1 pr-1" dark>
         <v-row dense align="center" class="pl-0 pr-0 ml-0 mr-0">
           <v-col class="text-left">
@@ -38,13 +39,15 @@
                     <span class="caption" v-on="on" style="color: white;">{{remainingPeriod}}</span>
                   </v-chip>
                 </template>
-                <span>{{this.$moment(todoData.toFinishAt).format('YYYY-MM-DD')}}</span>
+                <span>{{toFinishAtString}}</span>
               </v-tooltip>
             </template>
           </v-col>
         </v-row>
       </v-card-subtitle>
+      <!-- End of TodoItem Header -->
       <v-divider></v-divider>
+      <!-- Start of TodoItem Content -->
       <v-card-text :class="editMode ? 'pa-0' : ''">
         <template v-if="editMode">
           <v-textarea v-model="todoData.content" class="px-0" ref="todoContentArea" rounded></v-textarea>
@@ -53,7 +56,9 @@
           <span class="body-2 font-weight-medium">{{todoData.content}}</span>
         </template>
       </v-card-text>
+      <!-- End of TodoItem Content -->      
       <v-divider></v-divider>
+      <!-- Start of TodoItem Footer -->
       <v-card-actions class="grey lighten-5">
         <v-spacer></v-spacer>
         <template v-if="editMode">
@@ -76,14 +81,23 @@
           </v-btn>
         </template>
       </v-card-actions>
+      <!-- End of TodoItem Footer -->      
     </v-card>
-    <DatepickerDialog :show="datepickerDialogShow" v-on:onDateSelect="(date) => alert(date)"></DatepickerDialog>
+    <DatepickerDialog
+      :show="datepickerDialogShow"
+      :initialDate="toFinishAtString"
+      @ok="(date) => {
+        todoData.toFinishAt = date; 
+        datepickerDialogShow = false
+      }"
+      @cancel="datepickerDialogShow = false"
+    ></DatepickerDialog>
   </v-list-item>
 </template>
 
 <script>
 import TodoBiz from "@/modules/biz/todo";
-import DatepickerDialog from '@/components/dialog/DatepickerDialog';
+import DatepickerDialog from "@/components/dialog/DatepickerDialog";
 
 export default {
   name: "TodoItem",
@@ -120,6 +134,9 @@ export default {
     },
     starredIcon() {
       return this.todoData.starred ? "mdi-star" : "mdi-star-outline";
+    },
+    toFinishAtString() {
+      return this.$moment(this.todoData.toFinishAt).format('YYYY-MM-DD')
     }
   },
   methods: {
@@ -164,7 +181,8 @@ export default {
       this.editMode = false;
       TodoBiz.updateTodo(this.todoData.id, {
         content: this.todoData.content,
-        status: this.todoData.status
+        status: this.todoData.status,
+        toFinishAt: this.todoData.toFinishAt
       })
         .then(() => {
           this.$app.toast("Todo is updated.");

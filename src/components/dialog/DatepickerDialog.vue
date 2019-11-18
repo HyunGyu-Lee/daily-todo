@@ -1,7 +1,6 @@
 <template>
   <v-dialog
-      v-model="datepickerDialog"
-      :return-value.sync="selectedDate"
+      v-model="show"
       persistent
       max-width="500px"
     >
@@ -10,8 +9,8 @@
         <v-card-text class="justify-center">
           <v-date-picker v-model="selectedDate" locale="ko" :full-width="true">
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="closeDialog">Cancel</v-btn>
-            <v-btn text color="primary" @click="emitOnDateSelected">OK</v-btn>
+            <v-btn text color="primary" @click="emitCancel">Cancel</v-btn>
+            <v-btn text color="primary" @click="emitOk">OK</v-btn>
           </v-date-picker>
         </v-card-text>
       </v-card>
@@ -30,20 +29,23 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    initialDate: {
+      type: String,
+      required: false
     } 
   },
   data() {
     return {
-      datepickerDialog: this.show,
-      selectedDate: null
+      selectedDate: this.initialDate
     }
   },
   methods: {
-    closeDialog() {
-      this.datepickerDialog = false;
+    emitCancel() {
+      this.$emit('cancel')
     },
-    emitOnDateSelected() {
-      this.$emit('onDateSelect', this.selectedDate)
+    emitOk() {      
+      this.$emit('ok', this.$moment(this.selectedDate + ' 23:59:59').valueOf())
     }
   }
 }
