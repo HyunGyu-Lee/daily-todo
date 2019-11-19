@@ -52,7 +52,6 @@ export default {
       }
     },
     addTodoSecondStep: function (toFinishAt) {
-      console.log(toFinishAt + ' 23:59:59')
       let todoItemData = {
         content: this.content, 
         status: TodoBiz.StatusConstants.STATUS_TODO, 

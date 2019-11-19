@@ -4,7 +4,7 @@
       <v-card>
         <v-progress-linear class="my-0" v-model="progressPercentage"></v-progress-linear>
         <v-card-actions>
-          <p>TodoListSummary 컴포넌트 영역</p>
+          Action Control Area
         </v-card-actions>
         <v-list class="pa-0">
           <template v-for="todo in todoList">

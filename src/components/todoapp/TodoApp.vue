@@ -1,11 +1,13 @@
 <template>
   <v-container>
     <TodoInput />
+    <TodoSummary :todoSummary="todoSummary" />
     <TodoList :todoList="viewableTodoList" />
   </v-container>
 </template>
 
 <script>
+import TodoSummary from '@/components/todoapp/TodoSummary'
 import TodoList from '@/components/todoapp/TodoList'
 import TodoInput from '@/components/todoapp/TodoInput'
 
@@ -15,18 +17,20 @@ export default {
   name: 'TodoApp',
   components: {
     TodoInput,
+    TodoSummary,
     TodoList
   },
   data() {
     return {                  
-      todoList: []
+      todoList: [],
+      todoSummary: null
     }
   },
   created() {
     TodoBiz.EventBus.$on('addNewTodo', todo => this.addTodo(todo))
     TodoBiz.EventBus.$on('deleteTodo', todoId => this.deleteTodo(todoId))
 
-    this.getTodos();
+    this.loadInitialData();
   },
   computed: {
     viewableTodoList() {
@@ -34,12 +38,27 @@ export default {
     }
   },
   methods: {
-    getTodos() { 
+    loadInitialData() {
       this.$app.startLoading(); 
+      this.searchTodos();
+      this.searchTodoSummary();
+    },
+    searchTodos() { 
       TodoBiz.getTodos().then(todos => {
         this.todoList = todos.docs;
-      this.$app.finishLoading();
-      }).catch(error => this.$app.toast(error.message));
+      }).catch(error => {
+        this.$app.finishLoading();
+        this.$app.toast(error.message)
+      });
+    },
+    searchTodoSummary() {
+      TodoBiz.getSummary().then((summary) => {
+        this.todoSummary = summary
+        this.$app.finishLoading();
+      }).catch(error => {
+        this.$app.finishLoading();
+        this.$app.toast(error.message)
+      })
     },
     addTodo(todoItemData) {
       TodoBiz.addTodo(todoItemData).then(docRef => {
@@ -49,11 +68,17 @@ export default {
             return todoItemData
           }
         })
-      }).catch(error => this.$app.toast(error.message))
+        this.todoSummary.statusCounts[TodoBiz.StatusConstants.STATUS_TODO] += 1
+      }).catch(error => {
+        this.$app.toast(error.message)
+        console.error(error)
+      })
     },
     deleteTodo(todoId) {
       TodoBiz.deleteTodo(todoId).then(() => {
         let idx = this.todoList.findIndex(todo => todo.id === todoId);
+        let status = this.todoList[idx].data().status
+        this.todoSummary.statusCounts[status] -= 1 
         this.todoList.splice(idx, 1);
       }).catch(error => this.$app.toast(error.message))
     },

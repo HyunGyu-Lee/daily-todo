@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import firebaseApp from '@/modules/firebase'
+import _ from 'lodash'
 
 const firestore = firebaseApp.firestore();
 const EventBus = new Vue()
@@ -38,5 +39,13 @@ export default {
     },
     deleteTodo(todoId) {
       return this.getCollection().doc(todoId).delete();
+    },
+    getSummary() {
+      return this.getCollection().get().then((snapshot) => {
+        let list = _.map(snapshot.docs, (doc) => doc.data());
+        return {
+          statusCounts: _.countBy(list, 'status')
+        }
+      })
     }
 }
