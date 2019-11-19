@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <TodoInput />
-    <TodoSummary />
+    <TodoSummary :todoSummary="todoSummary" />
     <TodoList :todoList="viewableTodoList" />
   </v-container>
 </template>
@@ -53,7 +53,7 @@ export default {
     },
     searchTodoSummary() {
       TodoBiz.getSummary().then((summary) => {
-        console.log(summary)
+        this.todoSummary = summary
         this.$app.finishLoading();
       }).catch(error => {
         this.$app.finishLoading();
@@ -68,6 +68,7 @@ export default {
             return todoItemData
           }
         })
+        this.todoSummary.statusCounts[TodoBiz.StatusConstants.STATUS_TODO] += 1
       }).catch(error => {
         this.$app.toast(error.message)
         console.error(error)
@@ -76,6 +77,8 @@ export default {
     deleteTodo(todoId) {
       TodoBiz.deleteTodo(todoId).then(() => {
         let idx = this.todoList.findIndex(todo => todo.id === todoId);
+        let status = this.todoList[idx].data().status
+        this.todoSummary.statusCounts[status] -= 1 
         this.todoList.splice(idx, 1);
       }).catch(error => this.$app.toast(error.message))
     },
