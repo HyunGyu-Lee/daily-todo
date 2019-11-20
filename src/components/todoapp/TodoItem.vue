@@ -56,7 +56,7 @@
           <span class="body-2 font-weight-medium">{{todoData.content}}</span>
         </template>
       </v-card-text>
-      <!-- End of TodoItem Content -->      
+      <!-- End of TodoItem Content -->
       <v-divider></v-divider>
       <!-- Start of TodoItem Footer -->
       <v-card-actions class="grey lighten-5">
@@ -81,7 +81,7 @@
           </v-btn>
         </template>
       </v-card-actions>
-      <!-- End of TodoItem Footer -->      
+      <!-- End of TodoItem Footer -->
     </v-card>
     <DatepickerDialog
       :show="datepickerDialogShow"
@@ -99,6 +99,8 @@
 import TodoBiz from "@/modules/biz/todo";
 import DatepickerDialog from "@/components/dialog/DatepickerDialog";
 
+import _ from 'lodash'
+
 export default {
   name: "TodoItem",
   components: {
@@ -113,6 +115,7 @@ export default {
   data() {
     return {
       todoData: this.todo,
+      oldStatus: this.todo.status,
       editMode: false,
       datepickerDialogShow: false,
       statusItems: TodoBiz.StatusConstants.statusMeta
@@ -126,8 +129,8 @@ export default {
       return this.getTodoStatusMeta(this.todoData.status).color;
     },
     remainingPeriod() {
-      let prefix = this.isExceed() ? "D + " : "D - ";
-      return prefix + this.$moment(this.todoData.toFinishAt).toNow(true);
+      let suffix = this.isExceed() ? "지남" : "남음";
+      return `${this.$moment(this.todoData.toFinishAt).toNow(true)} ${suffix}`;
     },
     remainingPeriodColor() {
       return this.isExceed() ? "red" : "primary";
@@ -136,7 +139,7 @@ export default {
       return this.todoData.starred ? "mdi-star" : "mdi-star-outline";
     },
     toFinishAtString() {
-      return this.$moment(this.todoData.toFinishAt).format('YYYY-MM-DD')
+      return this.$moment(this.todoData.toFinishAt).format("YYYY-MM-DD");
     }
   },
   methods: {
@@ -171,22 +174,30 @@ export default {
     },
     changeEditMode() {
       this.editMode = true;
-
-      // TODO setTimeout 쓰지 않고 해결방법 찾기
-      setTimeout(() => {
+      _.delay(() => {
         this.$refs.todoContentArea.focus();
-      }, 10);
+      }, 10)
     },
     changeViewModeAndSave() {
-      this.editMode = false;
-      TodoBiz.updateTodo(this.todoData.id, {
+      let payload = {
         content: this.todoData.content,
         status: this.todoData.status,
         toFinishAt: this.todoData.toFinishAt
-      })
+      };
+
+      if (this.todoData.status === TodoBiz.StatusConstants.STATUS_DONE) {
+        payload["toFinishAt"] = Number.MAX_SAFE_INTEGER;
+      }
+
+      TodoBiz.updateTodo(this.todoData.id, payload)
         .then(() => {
+          TodoBiz.EventBus.$emit("summaryInfoUpdate", {
+            oldStatus: this.oldStatus,
+            newStatus: this.todoData.status
+          });
           this.$app.toast("Todo is updated.");
           this.editMode = false;
+          this.oldStatus = this.todoData.status;
         })
         .catch(error => this.$app.toast(error.message));
     }
