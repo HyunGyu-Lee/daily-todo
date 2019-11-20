@@ -16,36 +16,36 @@ const StatusConstants = {
   STATUS_IN_PROGRESS,
   STATUS_DONE,
   statusMeta: {
-    [STATUS_TODO]: {text: 'To Do', color: '#43B82E'}, 
-    [STATUS_IN_PROGRESS]: {text: 'In progress', color: '#388FFF'}, 
-    [STATUS_DONE]: {text: 'Done', color: '#BDBDBD'}
-  }    
+    [STATUS_TODO]: { text: 'To Do', color: '#43B82E' },
+    [STATUS_IN_PROGRESS]: { text: 'In progress', color: '#388FFF' },
+    [STATUS_DONE]: { text: 'Done', color: '#BDBDBD' }
+  }
 }
 
 export default {
-    EventBus,
-    StatusConstants,
-    getCollection() {
-      return firestore.collection(TODO_COLLECTION)
-    },
-    addTodo(todo) {
-      return this.getCollection().add(todo);
-    },
-    getTodos () {
-      return this.getCollection().get();
-    },
-    updateTodo(todoId, payload) {
-      return this.getCollection().doc(todoId).update(payload);
-    },
-    deleteTodo(todoId) {
-      return this.getCollection().doc(todoId).delete();
-    },
-    getSummary() {
-      return this.getCollection().get().then((snapshot) => {
-        let list = _.map(snapshot.docs, (doc) => doc.data());
-        return {
-          statusCounts: _.countBy(list, 'status')
-        }
-      })
-    }
+  EventBus,
+  StatusConstants,
+  getCollection() {
+    return firestore.collection(TODO_COLLECTION)
+  },
+  addTodo(todo) {
+    return this.getCollection().add(todo);
+  },
+  getTodos() {
+    return this.getCollection().orderBy('toFinishAt').get();
+  },
+  updateTodo(todoId, payload) {
+    return this.getCollection().doc(todoId).update(payload);
+  },
+  deleteTodo(todoId) {
+    return this.getCollection().doc(todoId).delete();
+  },
+  getSummary() {
+    return this.getCollection().get().then((snapshot) => {
+      let list = _.map(snapshot.docs, (doc) => doc.data());
+      return {
+        statusCounts: _.countBy(list, 'status')
+      }
+    })
+  }
 }
