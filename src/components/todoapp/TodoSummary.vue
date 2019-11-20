@@ -1,6 +1,6 @@
 <template>
-  <v-row dense align="center" class="pl-0 pr-0 ml-0 mr-0" v-if="todoSummary">
-    <v-col class="text-right">
+  <v-row dense align="center" justify="center" class="pl-0 pr-0 ml-0 mr-0" v-if="todoSummary">    
+    <v-col class="text-right" sm="10" md="10" xs="1">
       <div class="status mr-3">
         <i class="todo-status-todo-stick" style="background"></i>
         <span class="caption mr-1">할 일</span>
