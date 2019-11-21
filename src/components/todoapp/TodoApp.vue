@@ -55,7 +55,7 @@ export default {
     searchTodos() {
       TodoBiz.getTodos()
         .then(todos => {
-          this.todoList = _.map(todos.docs, (doc) =>
+          this.todoList = _.map(todos.docs, doc =>
             this.convertFirestoreTodoItem(doc)
           );
         })
@@ -135,12 +135,7 @@ export default {
       this.todoSummary.statusCounts[statusChanges.newStatus] += 1;
     },
     sortTodoList(sort) {
-      console.log(sort)
-      console.log(_.keys(sort))
-      console.log(_.values(sort))      
-
-      // this.todoList = _.orderBy(this.todoList, _.keys(sort), _.values(sort))
-      this.todoList = _.orderBy(this.todoList, _.keys(sort), _.values(sort))
+      this.todoList = _.orderBy(this.todoList, sort.keys, sort.directions);
     }
   }
 };

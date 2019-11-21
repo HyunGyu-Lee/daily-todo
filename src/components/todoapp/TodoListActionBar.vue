@@ -2,16 +2,16 @@
   <v-row dense align="center">
     <v-col class="text-right">
       <span class="caption mr-2" @click.stop.prevent="applySort('toFinishAt')">
-        <span>목표일</span>
-        <v-icon x-small>{{sortToFinishAtIcon}}</v-icon>
+        <span :class="toFinishAtDirection.code !== 0 ? 'font-weight-black': ''">목표일</span>
+        <v-icon x-small>{{toFinishAtDirection.icon}}</v-icon>
       </span>
       <span class="caption mr-2" @click.stop.prevent="applySort('status')">
-        상태
-        <v-icon x-small>{{sortStatusIcon}}</v-icon>
+        <span :class="statusDirection.code !== 0 ? 'font-weight-black': ''">상태</span>
+        <v-icon x-small>{{statusDirection.icon}}</v-icon>
       </span>
       <span class="caption" @click.stop.prevent="applySort('createAt')">
-        등록일
-        <v-icon x-small>{{sortCreateAtIcon}}</v-icon>
+        <span :class="createAtDirection.code !== 0 ? 'font-weight-black': ''">등록일</span>
+        <v-icon x-small>{{createAtDirection.icon}}</v-icon>
       </span>
     </v-col>
   </v-row>
@@ -20,9 +20,9 @@
 <script>
 import TodoBiz from "@/modules/biz/todo";
 
-const DIRECTION_NONE = 0
-const DIRECTION_ASC = 1
-const DIRECTION_DESC = 2
+const DIRECTION_NONE = { code: 0, name: "none", icon: "" };
+const DIRECTION_ASC = { code: 1, name: "asc", icon: "mdi-arrow-up" };
+const DIRECTION_DESC = { code: 2, name: "desc", icon: "mdi-arrow-down" };
 
 export default {
   data() {
@@ -32,36 +32,59 @@ export default {
         status: 0,
         createAt: 0
       },
-      appliedSort: []
+      currentSortKeys: [],
+      currentSortDirections: []
     };
   },
   computed: {
-    sortToFinishAtIcon() {
-      return this.resolveSortDirection(this.sort.toFinishAt);
+    toFinishAtDirection() {
+      return this.resolveDirection(this.sort.toFinishAt);
     },
-    sortStatusIcon() {
-      return this.resolveSortDirection(this.sort.status);
+    statusDirection() {
+      return this.resolveDirection(this.sort.status);
     },
-    sortCreateAtIcon() {
-      return this.resolveSortDirection(this.sort.createAt);
+    createAtDirection() {
+      return this.resolveDirection(this.sort.createAt);
     }
   },
   methods: {
-    resolveSortDirection(value) {
+    resolveDirection(value) {
       switch (value) {
-        case DIRECTION_NONE:
-          return "";
-        case DIRECTION_ASC:
-          return "mdi-arrow-up";
-        case DIRECTION_DESC:
-          return "mdi-arrow-down";
+        case DIRECTION_NONE.code:
+          return DIRECTION_NONE;
+        case DIRECTION_ASC.code:
+          return DIRECTION_ASC;
+        case DIRECTION_DESC.code:
+          return DIRECTION_DESC;
       }
     },
     applySort(key) {
       let direction = this.sort[key];
-      this.sort[key] = direction === DIRECTION_DESC ? DIRECTION_NONE : direction + 1;
-      // this.sort[key] = this.sort[key] === ASC ? DESC : ASC;
-      TodoBiz.EventBus.$emit("sort", this.sort);
+      let idx = this.currentSortKeys.findIndex(savedKey => key === savedKey);
+
+      if (idx === -1) {
+        this.sort[key] = direction + 1;
+        this.currentSortKeys.push(key);
+        this.currentSortDirections.push(this.sort[key]);
+      } else {
+        if (direction === DIRECTION_DESC.code) {
+          this.sort[key] = DIRECTION_NONE.code;
+
+          let idx = this.currentSortKeys.findIndex(
+            savedKey => key === savedKey
+          );
+          this.currentSortKeys.splice(idx, 1);
+          this.currentSortDirections.splice(idx, 1);
+        } else {
+          this.sort[key] = direction + 1;
+          this.currentSortDirections[idx] = this.sort[key];          
+        }
+      }
+
+      TodoBiz.EventBus.$emit("sort", {
+        keys: this.currentSortKeys,
+        directions: this.currentSortDirections.map(direction => this.resolveDirection(direction).name)
+      });
     }
   }
 };
