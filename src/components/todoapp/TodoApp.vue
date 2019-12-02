@@ -2,7 +2,7 @@
   <v-container>
     <TodoInput />
     <TodoSummary :todoSummary="todoSummary" />
-    <TodoList :todoList="todoList" />
+    <TodoList :todoList="todoList" :progressPercentage="progressPercentage" />
   </v-container>
 </template>
 
@@ -25,8 +25,15 @@ export default {
   data() {
     return {
       todoList: [],
-      todoSummary: null
+      todoSummary: null,
     };
+  },
+  computed: {
+    progressPercentage() {
+      let total = this.todoList.length;
+      let remaining = this.todoList.filter(e => e.status !== TodoBiz.StatusConstants.STATUS_DONE).length;
+      return (total - remaining) / total * 100
+    }
   },
   created() {
     TodoBiz.EventBus.$on("addNewTodo", todo => this.addTodo(todo));

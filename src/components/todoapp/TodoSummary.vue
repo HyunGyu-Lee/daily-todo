@@ -30,13 +30,16 @@ export default {
   },
   computed: {
     todoCount() {
-      return this.todoSummary.statusCounts[0]
+      let v = this.todoSummary.statusCounts[0]
+      return v ? v : 0
     },
     inprogressCount() {
-      return this.todoSummary.statusCounts[1]
+      let v = this.todoSummary.statusCounts[1]
+      return v ? v : 0
     },
     doneCount() {
-      return this.todoSummary.statusCounts[2]
+      let v = this.todoSummary.statusCounts[2]
+      return v ? v : 0
     }
   }
 }

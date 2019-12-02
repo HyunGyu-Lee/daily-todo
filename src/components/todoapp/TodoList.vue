@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col sm="10" md="10" xs="1">
       <v-card>
-        <v-progress-linear class="my-0" v-model="progressPercentage"></v-progress-linear>
+        <v-progress-linear class="my-0" :value="progressPercentage"></v-progress-linear>
         <v-card-actions class="py-0">
           <TodoListActionBar></TodoListActionBar>
         </v-card-actions>

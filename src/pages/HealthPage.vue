@@ -1,0 +1,16 @@
+<template>
+  <v-row align="start" class="fill-height">
+    <h1>Health!</h1>
+    <br><br><br>
+    <ul>
+      <li>2019-12-03 start 84.3</li>
+      <li>2019-12-03 end 84.5</li> 
+    </ul>
+  </v-row>
+</template>
+
+<script>
+export default {
+  name: 'HealthPage',
+};
+</script>

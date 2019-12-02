@@ -24,6 +24,9 @@
       <v-btn :to="{name: 'todoPage'}" height="100%">
         <span>ToDo</span><v-icon>mdi-newspaper-variant-multiple</v-icon>
       </v-btn>
+      <v-btn :to="{name: 'healthPage'}" height="100%">
+        <span>Health</span><v-icon>mdi-yoga</v-icon>
+      </v-btn>      
       <v-btn to="/settings" height="100%">
         <span>Settings</span><v-icon>mdi-settings</v-icon>
       </v-btn>
