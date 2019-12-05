@@ -9,6 +9,8 @@
       <li>2019-12-03 end 84.3</li>       
       <li>2019-12-04 start 83.8</li>
       <li>2019-12-04 end 84.4</li>
+      <li>2019-12-05 start 84.4</li>
+      <li>2019-12-05 end 84.4</li>
     </ul>
   </v-row>
 </template>
