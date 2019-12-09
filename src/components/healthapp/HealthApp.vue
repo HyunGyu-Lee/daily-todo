@@ -17,20 +17,40 @@
       <li>2019-12-08 end ?</li>            
     </ul>-->
     <HealthDataInput />
-    <HealthDataVisualizer />
+    <HealthDataVisualizer :health-data-list="healthDataList" />
   </v-container>
 </template>
 
 <script>
 // import _ from "lodash";
-import HealthDataInput from "@/components/healthapp/HealthDataInput";
-import HealthDataVisualizer from "@/components/healthapp/HealthDataVisualizer";
+import HealthDataInput from '@/components/healthapp/HealthDataInput';
+import HealthDataVisualizer from '@/components/healthapp/HealthDataVisualizer';
+
+import HealthBiz from '@/modules/biz/health';
 
 export default {
   name: "HealthApp",
+  data() {
+    return {
+      healthDataList: []
+    }
+  },
   components: {
     HealthDataInput,
     HealthDataVisualizer
+  },
+  created() {
+    HealthBiz.EventBus.$on("addNewHealthData", data => this.addHealthData(data));
+  },
+  methods: {
+    addHealthData(data) {
+      HealthBiz.addHealthData(data).then(() => {
+        this.healthDataList.push(data);
+      }).catch(error => {
+        this.$app.toast(error.message);
+        console.error(error);
+      });
+    }
   }
 };
 </script>

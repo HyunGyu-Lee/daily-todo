@@ -26,7 +26,16 @@
 
 <script>
 export default {
-  name: 'HealthDataVisualizer'
+  name: 'HealthDataVisualizer',
+  props: {
+    healthDataList: {
+      type: Array,
+      required: true
+    }
+  },
+  created() {
+    console.log(this.healthDataList)
+  }
 };
 </script>
 

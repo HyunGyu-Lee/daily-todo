@@ -35,11 +35,15 @@
 </template>
 
 <script>
+import HealthBiz from '@/modules/biz/health'
+
 export default {
   name: "HealthDataInput",
   data() {
     return {
       weight: 80,
+      registDate: Date.now(),
+      ampm: 'am',
       step: 0.1,
       today: this.$moment().format("YYYY-MM-DD")
     };
@@ -62,7 +66,12 @@ export default {
       this.weight -= this.step;
     },
     add() {
-      console.log("Add!", this.weight);
+      let healthData = {
+        registDate: this.registDate,
+        ampm: this.ampm,
+        weight: this.weight
+      };
+      HealthBiz.EventBus.$emit('addNewTodo', healthData)
     }
   }
 };
