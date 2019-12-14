@@ -13,7 +13,20 @@ export default {
     return firestore.collection(HEALTH_COLLECTION)
   },
   addHealthData(healthData) {
-    return this.getCollection().add(healthData);
+    let collection = this.getCollection();
+    
+    return new Promise((resolve, reject) => {
+      collection.where('registDate', '==', healthData['registDate']).get()
+      .then((e) => {
+        if (e.docs.length) {
+          collection.doc(e.docs[0].id).update(healthData)
+          resolve({mode: 'update'})
+        } else {
+          collection.add(healthData)
+          resolve({mode: 'create'})          
+        }
+      }).catch(e => reject(e))
+    });
   },
   getHealthDatas() {
     return this.getCollection().get();

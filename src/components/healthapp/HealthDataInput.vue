@@ -1,12 +1,21 @@
 <template>
-  <v-container>
+  <v-container class="px-0">
     <p>오늘의 체중을 등록하세요!</p>
-    <small>{{today}}</small>
-    <v-card-text>
-      <v-row class="mb-4" justify="space-between">
+    <v-card-text class="pt-0">
+      <v-row align="center" justify="space-between">
+        <span @click="datepickerDialog = true">
+          대상일:
+          <u>{{targetDate}}</u>
+        </span>
+        <v-btn-toggle v-model="ampm" color="secondary accent-3" group>
+          <v-btn value="am">오전</v-btn>
+          <v-btn value="pm">오후</v-btn>
+        </v-btn-toggle>
+      </v-row>
+      <v-row justify="space-between">
         <v-col class="text-left">
           <span class="display-3 font-weight-light" v-text="weight"></span>
-          <span class="subheading font-weight-light mr-1">KG</span>
+          <span class="subheading font-weight-light mr-1">kg</span>
         </v-col>
         <v-col class="text-right">
           <v-btn :color="color" dark depressed fab @click="add">
@@ -31,11 +40,24 @@
         </template>
       </v-slider>
     </v-card-text>
+    <v-dialog
+      ref="datepickerRef"
+      v-model="datepickerDialog"
+      :return-value.sync="targetDate"
+      persistent
+      max-width="500px"
+    >
+      <v-date-picker v-model="targetDate" locale="ko" :full-width="true">
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="datepickerDialog = false">Cancel</v-btn>
+        <v-btn text color="primary" @click="$refs.datepickerRef.save(targetDate)">OK</v-btn>
+      </v-date-picker>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
-import HealthBiz from '@/modules/biz/health'
+import HealthBiz from "@/modules/biz/health";
 
 export default {
   name: "HealthDataInput",
@@ -43,9 +65,10 @@ export default {
     return {
       weight: 80,
       registDate: Date.now(),
-      ampm: 'am',
+      ampm: "am",
       step: 0.1,
-      today: this.$moment().format("YYYY-MM-DD")
+      targetDate: this.$moment().format("YYYY-MM-DD"),
+      datepickerDialog: false
     };
   },
   computed: {
@@ -66,12 +89,10 @@ export default {
       this.weight -= this.step;
     },
     add() {
-      let healthData = {
-        registDate: this.registDate,
-        ampm: this.ampm,
-        weight: this.weight
-      };
-      HealthBiz.EventBus.$emit('addNewTodo', healthData)
+      let healthData = { registDate: this.targetDate };
+      healthData[this.ampm] = this.weight;
+
+      HealthBiz.EventBus.$emit("addNewHealthData", healthData);
     }
   }
 };

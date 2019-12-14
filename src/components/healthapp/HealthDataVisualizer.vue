@@ -12,7 +12,14 @@
       </v-tab>
       <v-tab-item>
         <v-card flat>
-          <v-card-text>표</v-card-text>
+          <v-card-text>
+            <v-data-table
+              hide-default-footer 
+              class="elevation-1" 
+              :headers="tableHeaders" 
+              :items="healthDataList">              
+            </v-data-table>
+          </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -25,16 +32,29 @@
 </template>
 
 <script>
+// import _ from 'lodash'
+
 export default {
-  name: 'HealthDataVisualizer',
+  name: "HealthDataVisualizer",
   props: {
     healthDataList: {
       type: Array,
       required: true
     }
   },
-  created() {
-    console.log(this.healthDataList)
+  data() {
+    return {
+      tableHeaders: [
+        { text: "일자", value: "registDate", align: 'center' },
+        { text: "오전 체중 (kg)", value: "am", align: 'center' },
+        { text: "오후 체중 (kg)", value: "pm", align: 'center' }
+      ]
+    };
+  },
+  methods: {
+    ampmText: function(ampm) {
+      return ampm === "am" ? "오전" : "오후";
+    }
   }
 };
 </script>
