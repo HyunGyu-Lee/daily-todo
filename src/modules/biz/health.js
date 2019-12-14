@@ -14,7 +14,6 @@ export default {
   },
   addHealthData(healthData) {
     let collection = this.getCollection();
-    
     return new Promise((resolve, reject) => {
       collection.where('registDate', '==', healthData['registDate']).get()
       .then((e) => {
@@ -29,7 +28,7 @@ export default {
     });
   },
   getHealthDatas() {
-    return this.getCollection().get();
+    return this.getCollection().orderBy('registDate').get();
   },
   updateHealthData(id, payload) {
     return this.getCollection().doc(id).update(payload);
