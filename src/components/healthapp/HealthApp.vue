@@ -49,13 +49,14 @@ export default {
       }
     },
     addHealthData(data) {
-      HealthBiz.addHealthData(data).then((e) => {
+      let payload = {registDate: data.registDate};
+      payload[data.ampm] = data.weight
+      HealthBiz.addHealthData(payload).then((e) => {
         if (e.mode === 'create') {
-          this.healthDataList.push(data);
+          this.healthDataList.push(payload);
         } else {
-          console.log('??update!')
-          let idx = _.findIndex(this.healthDataList, item => item.registDate == data['registDate'])
-          this.healthDataList[idx] = _.merge(this.healthDataList[idx], data);
+          let idx = _.findIndex(this.healthDataList, item => item.registDate == payload['registDate'])          
+          this.$set(this.healthDataList[idx], data.ampm, data.weight);
         }
         this.$app.toast('체중 데이터가 변경되었습니다.');
       }).catch(error => {

@@ -89,9 +89,7 @@ export default {
       this.weight -= this.step;
     },
     add() {
-      let healthData = { registDate: this.targetDate };
-      healthData[this.ampm] = this.weight;
-
+      let healthData = { registDate: this.targetDate, ampm: this.ampm, weight: this.weight };
       HealthBiz.EventBus.$emit("addNewHealthData", healthData);
     }
   }

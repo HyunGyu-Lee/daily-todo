@@ -14,7 +14,6 @@
         <v-card flat>
           <v-card-text>
             <v-data-table
-              hide-default-footer 
               class="elevation-1" 
               :headers="tableHeaders" 
               :items="healthDataList">              
