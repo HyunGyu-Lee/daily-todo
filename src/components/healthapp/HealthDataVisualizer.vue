@@ -3,7 +3,7 @@
     <v-toolbar flat color="primary" dark>
       <v-toolbar-title>체중 데이터</v-toolbar-title>
     </v-toolbar>
-    <v-tabs vertical class="fill-height">
+    <v-tabs class="fill-height">
       <v-tab>
         <v-icon left>mdi-table</v-icon>
       </v-tab>
@@ -11,15 +11,12 @@
         <v-icon left>mdi-chart-line</v-icon>
       </v-tab>
       <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <v-data-table
-              class="elevation-1" 
-              :headers="tableHeaders" 
-              :items="healthDataList">              
-            </v-data-table>
-          </v-card-text>
-        </v-card>
+        <v-data-table
+          mobile-breakpoint="300"
+          class="elevation-1" 
+          :headers="tableHeaders" 
+          :items="healthDataList">              
+        </v-data-table>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
