@@ -12,16 +12,14 @@
       </v-tab>
       <v-tab-item>
         <v-data-table
-          mobile-breakpoint="300"
-          class="elevation-1" 
-          :headers="tableHeaders" 
-          :items="healthDataList">              
-        </v-data-table>
+          :mobile-breakpoint="300"
+          class="elevation-1"
+          :headers="tableHeaders"
+          :items="healthDataList"
+        ></v-data-table>
       </v-tab-item>
       <v-tab-item>
-        <v-card flat>
-          <v-card-text>그래프</v-card-text>
-        </v-card>
+        <LineChart :healthDataList="healthDataList"></LineChart>
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -29,9 +27,11 @@
 
 <script>
 // import _ from 'lodash'
+import LineChart from "./chart/LineChart";
 
 export default {
   name: "HealthDataVisualizer",
+  components: { LineChart },
   props: {
     healthDataList: {
       type: Array,
@@ -41,9 +41,9 @@ export default {
   data() {
     return {
       tableHeaders: [
-        { text: "일자", value: "registDate", align: 'center' },
-        { text: "오전 체중 (kg)", value: "am", align: 'center' },
-        { text: "오후 체중 (kg)", value: "pm", align: 'center' }
+        { text: "일자", value: "registDate", align: "center" },
+        { text: "오전 체중 (kg)", value: "am", align: "center" },
+        { text: "오후 체중 (kg)", value: "pm", align: "center" }
       ]
     };
   },
