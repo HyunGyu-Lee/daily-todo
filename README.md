@@ -1,4 +1,5 @@
 # Daily TODO Applicatoin
+[![HitCount](http://hits.dwyl.io/hyungyu-lee/daily-todo.svg)](http://hits.dwyl.io/hyungyu-lee/daily-todo)
 
 ## Project setup
 ```
