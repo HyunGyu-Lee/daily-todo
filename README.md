@@ -1,30 +1,9 @@
 # Daily TODO Applicatoin
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0c2e751b-d00d-4788-87b7-d9f1226b509c/deploy-status)](https://app.netlify.com/sites/todo-io/deploys)
 [![HitCount](http://hits.dwyl.io/hyungyu-lee/daily-todo.svg)](http://hits.dwyl.io/hyungyu-lee/daily-todo)
 
-## Project setup
-```
-npm install
-```
+## 사이트 둘러보기
+https://todo-io.netlify.com
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 기술스택
+VueJS + Firebase + Netlify
