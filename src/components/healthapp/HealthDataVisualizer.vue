@@ -16,10 +16,14 @@
           class="elevation-1"
           :headers="tableHeaders"
           :items="healthDataList"
-        ></v-data-table>
+        >
+          <template v-slot:item.dailyChange="{ item }">
+            <v-chip :color="getColor(item.dailyChange)" dark>{{ item.dailyChange }}</v-chip>
+          </template>
+        </v-data-table>
       </v-tab-item>
       <v-tab-item>
-        <LineChart :healthDataList="healthDataList"></LineChart>
+        <LineChart :healthDataList="visualHealthDataList"></LineChart>
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -43,13 +47,26 @@ export default {
       tableHeaders: [
         { text: "일자", value: "registDate", align: "center" },
         { text: "오전 체중 (kg)", value: "am", align: "center" },
-        { text: "오후 체중 (kg)", value: "pm", align: "center" }
+        { text: "오후 체중 (kg)", value: "pm", align: "center" },
+        { text: "일일 평균 (kg)", value: "avg", align: "center"},
+        { text: "일일 변동 (kg)", value: "dailyChange", align: "center"}
       ]
     };
+  },
+  computed: {
+    visualHealthDataList () {
+      return this.healthDataList.map(item => {
+        item.avg = Math.round(((item.am + item.pm) / 2) * 100) / 100
+        item.dailyChange = Math.round((item.am - item.pm) * 100) / 100
+      });
+    }
   },
   methods: {
     ampmText: function(ampm) {
       return ampm === "am" ? "오전" : "오후";
+    },
+    getColor: function (value) {
+      return value > 0 ? 'red' : 'green'
     }
   }
 };
