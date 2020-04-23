@@ -1,7 +1,6 @@
 <template>
-  <v-row justify="center">
-    <v-col sm="10" md="10" xs="1">
-      <v-text-field 
+  <app-row>
+    <v-text-field 
         type="text" 
         v-model="content" 
         @keyup.enter="addTodoFirstStep"
@@ -10,8 +9,7 @@
         label="What needs to be done?"
       >
       </v-text-field>
-    </v-col>
-    <v-dialog
+      <v-dialog
       v-model="datepickerDialog"
       :return-value.sync="toFinishAt"
       persistent
@@ -28,7 +26,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  </v-row>
+  </app-row>
 </template>
 
 <script>

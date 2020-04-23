@@ -1,16 +1,13 @@
 import Vue from 'vue'
-import firebaseApp from '@/modules/firebase'
-// import _ from 'lodash'
+import firebase from '@/modules/firebase'
 
-const firestore = firebaseApp.firestore();
+const firestore = firebase.app.firestore();
 const EventBus = new Vue()
-
-const HEALTH_COLLECTION = 'health'
 
 export default {
   EventBus,
   getCollection() {
-    return firestore.collection(HEALTH_COLLECTION)
+    return firestore.collection(firebase.collections.HEALTH_APP)
   },
   addHealthData(healthData) {
     let collection = this.getCollection();

@@ -1,11 +1,9 @@
 import Vue from 'vue'
-import firebaseApp from '@/modules/firebase'
+import firebase from '@/modules/firebase'
 import _ from 'lodash'
 
-const firestore = firebaseApp.firestore();
+const firestore = firebase.app.firestore();
 const EventBus = new Vue()
-
-const TODO_COLLECTION = 'todos'
 
 const STATUS_TODO = 0
 const STATUS_IN_PROGRESS = 1
@@ -26,7 +24,7 @@ export default {
   EventBus,
   StatusConstants,
   getCollection() {
-    return firestore.collection(TODO_COLLECTION)
+    return firestore.collection(firebase.collections.TODO_APP)
   },
   addTodo(todo) {
     return this.getCollection().add(todo);

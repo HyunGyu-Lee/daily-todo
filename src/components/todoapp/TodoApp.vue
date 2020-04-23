@@ -1,9 +1,9 @@
 <template>
-  <v-container>
-    <TodoInput />
-    <TodoSummary :todoSummary="todoSummary" />
-    <TodoList :todoList="todoList" :progressPercentage="progressPercentage" />
-  </v-container>
+  <app-base app-name="TODO Application">
+    <todo-input />
+    <todo-summary :todoSummary="todoSummary" />
+    <todo-list :todoList="todoList" :progressPercentage="progressPercentage" />
+  </app-base>
 </template>
 
 <script>

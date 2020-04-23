@@ -8,6 +8,8 @@ import AppBiz from '@/modules/app'
 import App from '@/App'
 import router from '@/modules/router'
 
+import '@/components'
+
 Vue.config.productionTip = false
 moment.locale('ko')
 

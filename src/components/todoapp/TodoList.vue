@@ -1,6 +1,5 @@
 <template>
-  <v-row justify="center">
-    <v-col sm="10" md="10" xs="1">
+  <app-row>
       <v-card>
         <v-progress-linear class="my-0" :value="progressPercentage"></v-progress-linear>
         <v-card-actions class="py-0">
@@ -12,8 +11,7 @@
           </template>
         </v-list>
       </v-card>
-    </v-col>
-  </v-row>
+  </app-row>
 </template>
 
 <script>
