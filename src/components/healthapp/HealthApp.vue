@@ -10,7 +10,7 @@ import _ from "lodash";
 import HealthDataInput from '@/components/healthapp/HealthDataInput';
 import HealthDataVisualizer from '@/components/healthapp/HealthDataVisualizer';
 
-import HealthBiz from '@/modules/biz/health';
+import HealthService from '@/modules/service/health';
 
 export default {
   name: "HealthApp",
@@ -24,7 +24,7 @@ export default {
     HealthDataVisualizer
   },
   created() {
-    HealthBiz.EventBus.$on("addNewHealthData", data => this.addHealthData(data));
+    HealthService.EventBus.$on("addNewHealthData", data => this.addHealthData(data));
     this.load();
   },
   methods: {
@@ -33,7 +33,7 @@ export default {
       this.getHealthDatas();
     },
     getHealthDatas() {
-      HealthBiz.getHealthDatas().then(data => {
+      HealthService.getHealthDatas().then(data => {
         this.healthDataList = _.map(data.docs, row => this.convertFirebaseItem(row));
         this.$app.finishLoading();        
       }).catch(error => {
@@ -51,7 +51,7 @@ export default {
     addHealthData(data) {
       let payload = {registDate: data.registDate};
       payload[data.ampm] = data.weight
-      HealthBiz.addHealthData(payload).then((e) => {
+      HealthService.addHealthData(payload).then((e) => {
         if (e.mode === 'create') {
           this.healthDataList.push(payload);
         } else {

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import TodoBiz from '@/modules/biz/todo'
+import TodoService from '@/modules/service/todo'
 
 export default {
   name: 'TodoInput',
@@ -52,13 +52,13 @@ export default {
     addTodoSecondStep: function (toFinishAt) {
       let todoItemData = {
         content: this.content, 
-        status: TodoBiz.StatusConstants.STATUS_TODO, 
+        status: TodoService.StatusConstants.STATUS_TODO, 
         createAt: Date.now(),
         toFinishAt: this.$moment(toFinishAt + ' 23:59:59').valueOf(),
         starred: false
       }; 
       
-      TodoBiz.EventBus.$emit('addNewTodo', todoItemData)
+      TodoService.EventBus.$emit('addNewTodo', todoItemData)
       
       this.content = ''
       this.datepickerDialog = false

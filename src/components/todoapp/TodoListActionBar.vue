@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import TodoBiz from "@/modules/biz/todo";
+import TodoService from "@/modules/service/todo";
 
 const DIRECTION_NONE = { code: 0, name: "none", icon: "" };
 const DIRECTION_ASC = { code: 1, name: "asc", icon: "mdi-arrow-up" };
@@ -81,7 +81,7 @@ export default {
         }
       }
 
-      TodoBiz.EventBus.$emit("sort", {
+      TodoService.EventBus.$emit("sort", {
         keys: this.currentSortKeys,
         directions: this.currentSortDirections.map(direction => this.resolveDirection(direction).name)
       });

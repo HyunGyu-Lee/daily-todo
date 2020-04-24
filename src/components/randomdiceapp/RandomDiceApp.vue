@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import RandomDiceBiz from '@/modules/biz/randomdice'
+import RandomDiceService from '@/modules/service/randomdice'
 
 export default {
   data() {
@@ -48,12 +48,12 @@ export default {
     this.load()
   },
   methods: {    
-    calculateGainedCard: RandomDiceBiz.calculateGainedCard,
+    calculateGainedCard: RandomDiceService.calculateGainedCard,
     calculateGainedCardPerMinutes: (card, min) => { 
       return Math.round((card / min) * 10000) / 10000
     },
     async load() {
-      let data = await RandomDiceBiz.getPlayHistories();
+      let data = await RandomDiceService.getPlayHistories();
       this.playHistoryTable.histories = data.docs
       console.log(data.docs)
     },

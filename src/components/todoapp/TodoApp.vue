@@ -7,11 +7,9 @@
 </template>
 
 <script>
-import TodoSummary from "@/components/todoapp/TodoSummary";
-import TodoList from "@/components/todoapp/TodoList";
-import TodoInput from "@/components/todoapp/TodoInput";
+import { TodoInput, TodoList, TodoSummary } from '@/components/todoapp'
 
-import TodoBiz from "@/modules/biz/todo";
+import TodoService from "@/modules/service/todo";
 
 import _ from "lodash";
 
@@ -31,17 +29,17 @@ export default {
   computed: {
     progressPercentage() {
       let total = this.todoList.length;
-      let remaining = this.todoList.filter(e => e.status !== TodoBiz.StatusConstants.STATUS_DONE).length;
+      let remaining = this.todoList.filter(e => e.status !== TodoService.StatusConstants.STATUS_DONE).length;
       return (total - remaining) / total * 100
     }
   },
   created() {
-    TodoBiz.EventBus.$on("addNewTodo", todo => this.addTodo(todo));
-    TodoBiz.EventBus.$on("deleteTodo", todoId => this.deleteTodo(todoId));
-    TodoBiz.EventBus.$on("summaryInfoUpdate", statusChanges =>
+    TodoService.EventBus.$on("addNewTodo", todo => this.addTodo(todo));
+    TodoService.EventBus.$on("deleteTodo", todoId => this.deleteTodo(todoId));
+    TodoService.EventBus.$on("summaryInfoUpdate", statusChanges =>
       this.updateSummary(statusChanges)
     );
-    TodoBiz.EventBus.$on("sort", sort => this.sortTodoList(sort));
+    TodoService.EventBus.$on("sort", sort => this.sortTodoList(sort));
 
     this.load();
   },
@@ -60,7 +58,7 @@ export default {
      * @description Todo 목록 조회
      */
     searchTodos() {
-      TodoBiz.getTodos()
+      TodoService.getTodos()
         .then(todos => {
           this.todoList = _.map(todos.docs, doc =>
             this.convertFirestoreTodoItem(doc)
@@ -76,7 +74,7 @@ export default {
      * @description Todo 요약 목록 조회
      */
     searchTodoSummary() {
-      TodoBiz.getSummary()
+      TodoService.getSummary()
         .then(summary => {
           this.todoSummary = summary;
           this.$app.finishLoading();
@@ -91,12 +89,12 @@ export default {
      * @param todoItemTem 추가할 Todo
      */
     addTodo(todoItemData) {
-      TodoBiz.addTodo(todoItemData)
+      TodoService.addTodo(todoItemData)
         .then(docRef => {
           todoItemData["id"] = docRef.id;
           this.todoList.push(todoItemData);
           this.todoSummary.statusCounts[
-            TodoBiz.StatusConstants.STATUS_TODO
+            TodoService.StatusConstants.STATUS_TODO
           ] += 1;
         })
         .catch(error => {
@@ -109,7 +107,7 @@ export default {
      * @todoId 삭제할 Todo의 id
      */
     deleteTodo(todoId) {
-      TodoBiz.deleteTodo(todoId)
+      TodoService.deleteTodo(todoId)
         .then(() => {
           let idx = this.todoList.findIndex(todo => todo.id === todoId);
           let status = this.todoList[idx].status;

@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import HealthBiz from "@/modules/biz/health";
+import HealthService from "@/modules/service/health";
 
 export default {
   name: "HealthDataInput",
@@ -90,7 +90,7 @@ export default {
     },
     add() {
       let healthData = { registDate: this.targetDate, ampm: this.ampm, weight: this.weight };
-      HealthBiz.EventBus.$emit("addNewHealthData", healthData);
+      HealthService.EventBus.$emit("addNewHealthData", healthData);
     }
   }
 };

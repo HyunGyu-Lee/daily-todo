@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import TodoBiz from "@/modules/biz/todo";
+import TodoService from "@/modules/service/todo";
 import DatepickerDialog from "@/components/dialog/DatepickerDialog";
 
 import _ from 'lodash'
@@ -118,7 +118,7 @@ export default {
       oldStatus: this.todo.status,
       editMode: false,
       datepickerDialogShow: false,
-      statusItems: TodoBiz.StatusConstants.statusMeta
+      statusItems: TodoService.StatusConstants.statusMeta
     };
   },
   computed: {
@@ -144,10 +144,10 @@ export default {
   },
   methods: {
     getTodoStatusMeta(status) {
-      return TodoBiz.StatusConstants.statusMeta[status];
+      return TodoService.StatusConstants.statusMeta[status];
     },
     isDone() {
-      return this.todoData.status == TodoBiz.StatusConstants.STATUS_DONE;
+      return this.todoData.status == TodoService.StatusConstants.STATUS_DONE;
     },
     isExceed() {
       return (
@@ -156,10 +156,10 @@ export default {
       );
     },
     deleteTodo() {
-      TodoBiz.EventBus.$emit("deleteTodo", this.todoData.id);
+      TodoService.EventBus.$emit("deleteTodo", this.todoData.id);
     },
     toggleStarred() {
-      TodoBiz.updateTodo(this.todoData.id, {
+      TodoService.updateTodo(this.todoData.id, {
         starred: !this.todoData.starred
       })
         .then(() => {
@@ -185,13 +185,13 @@ export default {
         toFinishAt: this.todoData.toFinishAt
       };
 
-      if (this.todoData.status === TodoBiz.StatusConstants.STATUS_DONE) {
+      if (this.todoData.status === TodoService.StatusConstants.STATUS_DONE) {
         payload["toFinishAt"] = Number.MAX_SAFE_INTEGER;
       }
 
-      TodoBiz.updateTodo(this.todoData.id, payload)
+      TodoService.updateTodo(this.todoData.id, payload)
         .then(() => {
-          TodoBiz.EventBus.$emit("summaryInfoUpdate", {
+          TodoService.EventBus.$emit("summaryInfoUpdate", {
             oldStatus: this.oldStatus,
             newStatus: this.todoData.status
           });

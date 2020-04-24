@@ -15,8 +15,7 @@
 </template>
 
 <script>
-import TodoListActionBar from '@/components/todoapp/TodoListActionBar'
-import TodoItem from '@/components/todoapp/TodoItem';
+import { TodoItem, TodoListActionBar } from '@/components/todoapp'
 
 export default {
   name: "TodoList",

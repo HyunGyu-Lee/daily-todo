@@ -22,7 +22,6 @@
 
 </template>
 <script>
-// import TodoBiz from '@/modules/biz/todo'
 export default {
   props: {
     todoSummary: {
