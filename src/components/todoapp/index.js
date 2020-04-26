@@ -1,8 +1,8 @@
-import TodoInput from '@/components/todoapp/TodoInput'
-import TodoItem from '@/components/todoapp/TodoItem'
-import TodoList from '@/components/todoapp/TodoList'
-import TodoListActionBar from '@/components/todoapp/TodoListActionBar'
-import TodoSummary from '@/components/todoapp/TodoSummary'
+import TodoInput from '@/components/todoapp/parts/TodoInput'
+import TodoItem from '@/components/todoapp/parts/TodoItem'
+import TodoListActionBar from '@/components/todoapp/parts/TodoListActionBar'
+import TodoSummary from '@/components/todoapp/parts/TodoSummary'
+import TodoList from '@/components/todoapp/parts/TodoList'
 
 export {
   TodoInput,

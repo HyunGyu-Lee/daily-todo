@@ -1,11 +1,10 @@
 <template>
-  <v-container class="px-0">
-    <p>오늘의 체중을 등록하세요!</p>
-    <v-card-text class="pt-0">
+  <app-row>
+    <h3># 오늘의 체중을 등록하세요!</h3>
+    <v-card-text>
       <v-row align="center" justify="space-between">
         <span @click="datepickerDialog = true">
-          대상일:
-          <u>{{targetDate}}</u>
+          대상일: <u>{{targetDate}}</u>
         </span>
         <v-btn-toggle v-model="ampm" color="secondary accent-3" group>
           <v-btn value="am">오전</v-btn>
@@ -53,7 +52,7 @@
         <v-btn text color="primary" @click="$refs.datepickerRef.save(targetDate)">OK</v-btn>
       </v-date-picker>
     </v-dialog>
-  </v-container>
+  </app-row>
 </template>
 
 <script>

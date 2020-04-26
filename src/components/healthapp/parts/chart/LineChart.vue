@@ -21,9 +21,7 @@ export default {
             backgroundColor: "#f87979",
             pointBackgroundColor: "white",
             borderWidth: 1,
-            pointBorderColor: "#249EBF",
-            //Data to be represented on y-axis
-            data: this.populateData(this.healthDataList)
+            pointBorderColor: "#249EBF"
           }
         ]
       },
@@ -63,7 +61,7 @@ export default {
       this.datacollection.labels.push(day + '');
     }
   },
-  mounted() {
+  mounted() {    
     this.renderChart(this.datacollection, this.options);
   },
   methods: {

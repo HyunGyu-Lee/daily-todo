@@ -1,37 +1,39 @@
 <template>
-  <v-card>
-    <v-toolbar flat color="primary" dark>
-      <v-toolbar-title>체중 데이터</v-toolbar-title>
-    </v-toolbar>
-    <v-tabs class="fill-height">
-      <v-tab>
-        <v-icon left>mdi-table</v-icon>
-      </v-tab>
-      <v-tab>
-        <v-icon left>mdi-chart-line</v-icon>
-      </v-tab>
-      <v-tab-item>
-        <v-data-table
-          :mobile-breakpoint="300"
-          class="elevation-1"
-          :headers="tableHeaders"
-          :items="healthDataList"
-        >
-          <template v-slot:item.dailyChange="{ item }">
-            <v-chip :color="getColor(item.dailyChange)" dark>{{ item.dailyChange }}</v-chip>
-          </template>
-        </v-data-table>
-      </v-tab-item>
-      <v-tab-item>
-        <LineChart :healthDataList="visualHealthDataList"></LineChart>
-      </v-tab-item>
-    </v-tabs>
-  </v-card>
+  <app-row>
+    <h3># 체중 시각화</h3>
+    <v-card class="mt-3">
+      <v-toolbar flat color="primary" dark>
+        <v-toolbar-title>체중 데이터</v-toolbar-title>
+      </v-toolbar>
+      <v-tabs class="fill-height">
+        <v-tab>
+          <v-icon left>mdi-table</v-icon>
+        </v-tab>
+        <v-tab>
+          <v-icon left>mdi-chart-line</v-icon>
+        </v-tab>
+        <v-tab-item>
+          <v-data-table
+            :mobile-breakpoint="300"
+            class="elevation-1"
+            :headers="tableHeaders"
+            :items="healthDataList"
+          >
+            <template v-slot:item.dailyChange="{ item }">
+              <v-chip :color="getColor(item.dailyChange)" dark>{{ item.dailyChange }}</v-chip>
+            </template>
+          </v-data-table>
+        </v-tab-item>
+        <v-tab-item>
+          <line-chart :healthDataList="visualHealthDataList" />
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
+  </app-row>
 </template>
 
 <script>
-// import _ from 'lodash'
-import LineChart from "./chart/LineChart";
+import { LineChart } from '@/components/healthapp/parts/chart'
 
 export default {
   name: "HealthDataVisualizer",
@@ -52,6 +54,8 @@ export default {
         { text: "일일 변동 (kg)", value: "dailyChange", align: "center"}
       ]
     };
+  },
+  created() {
   },
   computed: {
     visualHealthDataList () {

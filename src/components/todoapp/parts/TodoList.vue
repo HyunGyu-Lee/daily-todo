@@ -3,7 +3,7 @@
       <v-card>
         <v-progress-linear class="my-0" :value="progressPercentage"></v-progress-linear>
         <v-card-actions class="py-0">
-          <TodoListActionBar></TodoListActionBar>
+          <todo-list-action-bar />
         </v-card-actions>
         <v-list class="pa-0">
           <template v-for="todo in todoList">

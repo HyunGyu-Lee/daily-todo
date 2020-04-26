@@ -25,6 +25,7 @@ const DIRECTION_ASC = { code: 1, name: "asc", icon: "mdi-arrow-up" };
 const DIRECTION_DESC = { code: 2, name: "desc", icon: "mdi-arrow-down" };
 
 export default {
+  name: "TodoListActionBar",
   data() {
     return {
       sort: {

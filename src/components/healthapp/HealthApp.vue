@@ -1,16 +1,14 @@
 <template>
-  <v-container>
-    <HealthDataInput />
-    <HealthDataVisualizer :health-data-list="healthDataList" />
-  </v-container>
+  <app-base app-name="Health App">
+    <health-data-input />
+    <health-data-visualizer :health-data-list="healthDataList" />
+  </app-base>
 </template>
 
 <script>
-import _ from "lodash";
-import HealthDataInput from '@/components/healthapp/HealthDataInput';
-import HealthDataVisualizer from '@/components/healthapp/HealthDataVisualizer';
+import { HealthDataInput, HealthDataVisualizer } from '@/components/healthapp'
 
-import HealthService from '@/modules/service/health';
+import HealthService from '@/modules/service/health'
 
 export default {
   name: "HealthApp",
@@ -26,6 +24,7 @@ export default {
   created() {
     HealthService.EventBus.$on("addNewHealthData", data => this.addHealthData(data));
     this.load();
+    
   },
   methods: {
     load() {
@@ -34,7 +33,7 @@ export default {
     },
     getHealthDatas() {
       HealthService.getHealthDatas().then(data => {
-        this.healthDataList = _.map(data.docs, row => this.convertFirebaseItem(row));
+        this.healthDataList = this.$lds.map(data.docs, row => this.convertFirebaseItem(row));
         this.$app.finishLoading();        
       }).catch(error => {
         this.$app.finishLoading();
@@ -55,7 +54,7 @@ export default {
         if (e.mode === 'create') {
           this.healthDataList.push(payload);
         } else {
-          let idx = _.findIndex(this.healthDataList, item => item.registDate == payload['registDate'])          
+          let idx = this.$lds.findIndex(this.healthDataList, item => item.registDate == payload['registDate'])          
           this.$set(this.healthDataList[idx], data.ampm, data.weight);
         }
         this.$app.toast('체중 데이터가 변경되었습니다.');

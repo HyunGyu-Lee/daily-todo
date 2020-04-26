@@ -1,5 +1,5 @@
 <template>
-  <app-base app-name="TODO Application">
+  <app-base app-name="TODO App">
     <todo-input />
     <todo-summary :todoSummary="todoSummary" />
     <todo-list :todoList="todoList" :progressPercentage="progressPercentage" />
@@ -10,8 +10,6 @@
 import { TodoInput, TodoList, TodoSummary } from '@/components/todoapp'
 
 import TodoService from "@/modules/service/todo";
-
-import _ from "lodash";
 
 export default {
   name: "TodoApp",
@@ -60,7 +58,7 @@ export default {
     searchTodos() {
       TodoService.getTodos()
         .then(todos => {
-          this.todoList = _.map(todos.docs, doc =>
+          this.todoList = this.$lds.map(todos.docs, doc =>
             this.convertFirestoreTodoItem(doc)
           );
         })
@@ -140,7 +138,7 @@ export default {
       this.todoSummary.statusCounts[statusChanges.newStatus] += 1;
     },
     sortTodoList(sort) {
-      this.todoList = _.orderBy(this.todoList, sort.keys, sort.directions);
+      this.todoList = this.$lds.orderBy(this.todoList, sort.keys, sort.directions);
     }
   }
 };

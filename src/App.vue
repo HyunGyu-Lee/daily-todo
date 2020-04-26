@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app dark color="primary" clipped-left>      
-      <h3>Todo.io</h3>
+      <h3>AppIO</h3>
       <v-spacer></v-spacer>
       <v-btn
         href="https://github.com/HyunGyu-Lee/daily-todo"

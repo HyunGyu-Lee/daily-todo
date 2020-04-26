@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // import pages
+console.log('Import Page')
 import TodoPage from '@/pages/TodoPage';
 import HealthPage from '@/pages/HealthPage';
 import RandomDicePage from '@/pages/RandomDicePage';
